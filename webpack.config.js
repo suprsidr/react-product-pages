@@ -1,4 +1,3 @@
-const path = require('path');
 const webpack = require('webpack');
 
 const config = {
@@ -19,13 +18,13 @@ const config = {
       }
     ]
   },
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/build/'
-  },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({minimize: true})
+    new webpack.optimize.UglifyJsPlugin({minimize: true}),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': '"production"'
+      }
+    })
   ]
 };
 
