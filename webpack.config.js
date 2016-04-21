@@ -1,26 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const autoprefixer = require('autoprefixer');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-const sassLoaders = [
-  'css-loader',
-  'postcss-loader',
-  'sass-loader?indentedSyntax=sass&includePaths[]=' + path.resolve(__dirname, './css/scss')
-];
-
-const config =module.exports = {
+const config = {
   entry: './components/App.js',
   output: {
   	path: './build',
-    filename: 'bundle.js'
+    filename: 'bundle.min.js'
   },
   module: {
     loaders: [
-      { test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!'))
-      },
       {
         test: /\.js$/,
         loader: 'babel-loader',
@@ -37,12 +25,7 @@ const config =module.exports = {
     publicPath: '/build/'
   },
   plugins: [
-    new ExtractTextPlugin('[name].css')
-  ],
-  postcss: [
-    autoprefixer({
-      browsers: ['last 2 versions']
-    })
+    new webpack.optimize.UglifyJsPlugin({minimize: true})
   ]
 };
 
