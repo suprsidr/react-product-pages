@@ -19,6 +19,7 @@ footer {
   height: 50px;
   font-size: .8rem;
 }
+.row {max-width: 960px;}
 .row .row.collapse {
   margin-left: -0.9375rem;
   margin-right: -0.9375rem;
@@ -78,12 +79,7 @@ a.slideLink {
   height: 550px;
   padding: 10px;
 }
-.button {
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1.8;
-  padding: 0.625rem 1.25rem;
-}
+
 .icon {
   display: inline-block;
   width: 1em;
@@ -235,54 +231,20 @@ i:hover {
   font-weight: bold;
   font-size: 1rem;
 }
-
-/* FileBrowser button */
-.inputfile {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
-
-.inputfile + label {
-  max-width: 80%;
-  font-size: 1.25rem;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
+.reviewsRating {
+  background-image: url("/img/iconsSprite.png");
+  background-position: right -128px;
+  background-repeat: no-repeat;
   display: inline-block;
-  overflow: hidden;
-  padding: 0.625rem 1.25rem;
-  border: 1px solid transparent;
+  height: 21px;
+  position: relative;
+  width: 111px;
 }
-
-
-.inputfile:focus + label,
-.inputfile.has-focus + label {
-  outline: 1px dotted #000;
-  outline: -webkit-focus-ring-color auto 5px;
-}
-
-.inputfile + label svg {
-  width: 1em;
-  height: 1em;
-  vertical-align: middle;
-  fill: currentColor;
-  margin-top: -0.25em;
-  margin-right: 0.25em;
-}
-
-.inputfile-1 + label {
-  color: #fefefe;
-  background-color: #2199e8;
-  transition: background-color 0.25s ease-out, color 0.25s ease-out;
-}
-
-.inputfile-1:focus + label,
-.inputfile-1.has-focus + label,
-.inputfile-1 + label:hover {
-  background-color: #1583cc;
+.reviewsRating .stars {
+  background-image: url("/img/iconsSprite.png");
+  background-position: -155px -107px;
+  background-repeat: no-repeat;
+  display: block;
+  height: 100%;
+  max-width: 100%;
 }

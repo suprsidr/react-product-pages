@@ -1,20 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {render} from 'react-dom';
-import Header from './Header';
-import Footer from './Footer';
-import Content from './Content';
+import { Router, hashHistory } from 'react-router'
+import routes from '../config/routes';
 
-export default class App extends Component {
-  render() {
-    return (
-      <div id='App'>
-        App
-        <Header />
-        <Footer />
-        <Content />
-      </div>
-    )
-  }
-}
-
-render(<App />, document.getElementById('main-container'));
+render(
+  <Router history={hashHistory}>{routes}</Router>,
+  document.getElementById('main-container')
+);
