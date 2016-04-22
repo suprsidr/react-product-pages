@@ -26,10 +26,10 @@ export class ProdPageProduct extends Component {
           <div className="small-12 columns prodTitle">
             <p><h3>{this.props.product.Name.replace(/&reg;/g, '')}</h3><strong>{`(${this.props.product.ProdID})`}</strong></p>
           </div>
-          <div className="small-12 medium-6 large-8 columns">
+          <div className="small-12 medium-7 large-8 columns">
             <p><img src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=500`} className="hero" alt={this.props.product.Name.replace(/&reg;/g, '')} /></p>
           </div>
-          <div className="small-12 medium-6 large-4 columns">
+          <div className="small-12 medium-5 large-4 columns">
             <ProdPriceBox product={this.props.product} />
           </div>
         </div>
