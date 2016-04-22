@@ -22,13 +22,14 @@ export default class Products extends Component {
     let regex;
     switch(category) {
       case 'multirotor':
-        regex = /^MULTI_(RTF|BNF)/
+        regex = /^MULTI_(RTF|BNF)/;
         break;
       case 'helicopters':
-        regex = /^HELI_(RTF|BNF)/
+        regex = /^HELI_(RTF|BNF)/;
         break;
       default:
-        /^._(RTF|BNF)$/
+	      regex = /[A-Z]+_(RTF|BNF)$/;
+	      break;
     }
     this.query({
       Categories: {
