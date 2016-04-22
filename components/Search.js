@@ -24,13 +24,14 @@ export default class Search extends Component {
     let regex;
     switch(category.toLowerCase()) {
       case 'multirotor':
-        regex = /^MULTI_(RTF|BNF)/
+        regex = /^MULTI_(RTF|BNF)/;
         break;
       case 'helicopters':
-        regex = /^HELI_(RTF|BNF)/
+        regex = /^HELI_(RTF|BNF)/;
         break;
       default:
-        /^._(RTF|BNF)$/
+	      regex = /[A-Z]+_(RTF|BNF)$/;
+		    break;
     }
     this.query({
       Categories: {
@@ -63,7 +64,7 @@ export default class Search extends Component {
   }
   render() {
     return (
-      <div className="row small-up-1 medium-up-2 large-up-4">
+      <div className="row small-up-2 medium-up-3 large-up-4">
         {this.state.products.map((product) => <Product key={product.ProdID} product={product} />)}
       </div>
     )
