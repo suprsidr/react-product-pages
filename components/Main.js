@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {Link, IndexLink} from 'react-router';
 import request from 'superagent';
 import jsonp from 'superagent-jsonp';
 import minimongo from 'minimongo';
+import Header from './Header';
+import Footer from './Footer';
 
 
 
@@ -11,7 +12,7 @@ export default class Main extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      prodId: ''
+      productsLoaded: false
     };
     this.LocalDb = minimongo.MemoryDb;
 
@@ -58,45 +59,19 @@ export default class Main extends Component {
   }
   upsert(data) {
     // insert data into db as one big dump - Always use upsert for both inserts and modifies
-    this.db.products.upsert(data, function () {
+    this.db.products.upsert(data, () => {
       console.log('data upserted');
+      this.setState({productsLoaded: true})
     });
   }
   render() {
     return (
       <div>
-        <div className="top-bar" role="nav">
-          <div className="top-bar-left">
-            <ul className="menu">
-              <li className="menu-text">POC Product Pages</li>
-              <li><IndexLink to="/">Home</IndexLink></li>
-              <li><Link to="/products" activeStyle={{ color: '#00d8ff' }}>Products</Link></li>
-              <li><Link to="/search" activeStyle={{ color: '#00d8ff' }}>Search</Link></li>
-            </ul>
-          </div>
-          <div className="top-bar-right">
-            <ul className="menu">
-              <li>Built with</li>
-              <li>
-                <a className="react-link" href="https://facebook.github.io/react/">
-                  <img width="36" height="36" src="img/react-logo.svg"/>
-                  React
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <Header />
         <div className="main_content">
-          {React.Children.map(this.props.children, (child) => React.cloneElement(child, { db: this.db }))}
+          {this.state.productsLoaded && React.Children.map(this.props.children, (child) => React.cloneElement(child, { db: this.db }))}
         </div>
-        <footer className="row">
-          <div className="small-6 columns">
-            © 2016 Wayne Patterson
-          </div>
-          <div className="small-6 columns text-right">
-            Fork me on <a href="https://github.com/suprsidr/react-product-pages">Github</a>
-          </div>
-        </footer>
+        <Footer />
       </div>
     )
   }
