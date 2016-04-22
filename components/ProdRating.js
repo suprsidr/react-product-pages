@@ -7,10 +7,11 @@ export default class ProdRating extends Component {
   }
   render() {
     return (
-      <span>
-        <span className="reviewsRating"><span style={{width: this.calculateRating()}} className="stars"></span></span>
-        <span className="reviewsLinks"><a className="numReviews" href="#">{`(${this.props.count} reviews)`}</a> <a className="writeReviews" href="#">Write a review</a></span>
-      </span>
+      <p className="prodRating">
+        <span className="reviewsRating"><span style={{width: this.calculateRating()}} className="stars"></span></span><br />
+        <span className="reviewsLinks">{this.props.count && <a className="numReviews" href={`http://www.horizonhobby.com/products/${this.props.prodid}#reviews`}>({this.props.count} reviews)</a>}
+          <a className="writeReviews" href={`http://www.horizonhobby.com/products/${this.props.prodid}#reviews`}>Write a review</a></span>
+      </p>
     )
   }
 }

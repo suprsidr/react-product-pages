@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Product from './Product';
+import {Product} from './Product';
 
 
 export default class Products extends Component {
@@ -9,12 +9,32 @@ export default class Products extends Component {
       products: []
     };
   }
+  componentWillMount() {
+    //this.setState({category: this.props.params.category.toLowerCase()});
+  }
   componentDidMount() {
+    this.makeQuery(this.props.params.category.toLowerCase());
+  }
+  componentWillReceiveProps(nextProps) {
+    this.makeQuery(nextProps.params.category.toLowerCase());
+  }
+  makeQuery(category) {
+    let regex;
+    switch(category) {
+      case 'multirotor':
+        regex = /^MULTI_(RTF|BNF)/
+        break;
+      case 'helicopters':
+        regex = /^HELI_(RTF|BNF)/
+        break;
+      default:
+        /^._(RTF|BNF)$/
+    }
     this.query({
       Categories: {
         $elemMatch: {
           ID: {
-            $regex: /^MULTI_(RTF|BNF)/
+            $regex: regex
           }
         }
       }
@@ -33,7 +53,6 @@ export default class Products extends Component {
         _id: -1
       }
     });
-
   }
   query(q, p) {
     this.props.db.products.find(q, p).fetch((data) => {

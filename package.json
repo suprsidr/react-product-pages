@@ -42,6 +42,7 @@
     "babel-preset-react": "^6.0.15",
     "babel-preset-stage-0": "^6.0.15",
     "babelify": "^7.2.0",
+    "compression": "^1.6.1",
     "eslint-plugin-react": "^3.6.2",
     "express": "^4.13.3",
     "history": "^2.1.0",

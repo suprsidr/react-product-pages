@@ -10,7 +10,7 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'bundle.min.js',
     publicPath: '/build/'
   },
   plugins: [
@@ -18,6 +18,15 @@ module.exports = {
   ],
   module: {
     loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015', 'react', 'stage-0']
+        },
+        include: path.join(__dirname, 'config')
+      },
       {
         test: /\.js$/,
         loaders: ['react-hot', 'babel'],

@@ -8,7 +8,7 @@ import {Route, IndexRoute} from 'react-router';
 
 export default (
   <Route path="/" component={Main}>
-    <Route path="/products" component={Products} />
+    <Route path="/products/:category" component={Products} />
     <Route path="/search" component={Search} />
     <Route path="/product/:id" component={ProdPage} />
     <IndexRoute component={Home} />

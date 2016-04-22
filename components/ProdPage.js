@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ProdPageProduct from './ProdPageProduct';
+import {ProdPageProduct} from './Product';
 
 
 export default class ProdPage extends Component {
