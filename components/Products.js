@@ -63,7 +63,7 @@ export default class Products extends Component {
   render() {
     return (
       <div className="row small-up-2 medium-up-3 large-up-4">
-        {this.state.products.map((product) => <Product key={product.ProdID} product={product} />)}
+        {this.state.products.map((product) => <Product key={product.ProdID} product={product} db={this.props.db} />)}
       </div>
     )
   }

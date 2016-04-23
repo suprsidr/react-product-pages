@@ -9,20 +9,25 @@ export default class ProdPage extends Component {
       products: []
     };
   }
+	componentWillReceiveProps(nextProps) {
+		this.makeQuery(nextProps.params.id);
+	}
   componentDidMount() {
-    this.query({
-      ProdID: this.props.params.id
-    }, {
-      limit: 0,
-      sort: {
-        ProdID: 1
-      },
-      fields: {
-        _id: -1
-      }
-    });
-
+    this.makeQuery(this.props.params.id);
   }
+	makeQuery(id) {
+		this.query({
+			ProdID: id
+		}, {
+			limit: 0,
+			sort: {
+				ProdID: 1
+			},
+			fields: {
+				_id: -1
+			}
+		});
+	}
   query(q, p) {
     this.props.db.products.find(q, p).fetch((data) => {
       this.setState({products: data});
@@ -31,7 +36,7 @@ export default class ProdPage extends Component {
   render() {
     return (
       <div className="row">
-        {this.state.products.map((product) => <ProdPageProduct key={product.ProdID} product={product} />)}
+        {this.state.products.map((product) => <ProdPageProduct key={product.ProdID} product={product} db={this.props.db} />)}
       </div>
     )
   }

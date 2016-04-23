@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import PartsList from './PartsList';
 
 export default class ProdTabs extends Component {
   onTabClick(e) {
@@ -24,24 +24,31 @@ export default class ProdTabs extends Component {
     return {__html: html};
   }
   render() {
+	  let manuals = this.props.product.Attributes.reduce((prev, next) => {
+		  if(next.ID === 'Manual') {
+			  prev = Array.isArray(next.Name) ? next.Name : [next.Name];
+		  }
+		  return prev;
+	  }, []);
     return (
       <div className="row">
         <div className="small-12 columns">
           <ul className="tabs" data-tabs id="product-tabs">
-            <li className="tabs-title"><a className="is-active" href="#overview" onClick={(e) => this.onTabClick(e)} aria-selected="true">Overview</a></li>
-            <li className="tabs-title"><a href="#parts" onClick={(e) => this.onTabClick(e)}>Parts &amp; Accessories</a></li>
-            <li className="tabs-title"><a href="#manuals" onClick={(e) => this.onTabClick(e)}>Manuals &amp; Support</a></li>
+	          {this.props.product.LongDesc && <li className="tabs-title"><a className="is-active" href="#overview" onClick={(e) => this.onTabClick(e)} aria-selected="true">Overview</a></li>}
+	          {this.props.product.PartsList &&<li className="tabs-title"><a href="#parts" onClick={(e) => this.onTabClick(e)}>Parts &amp; Accessories</a></li>}
+	          {(manuals.length > 0) && <li className="tabs-title"><a href="#manuals" onClick={(e) => this.onTabClick(e)}>Manuals &amp; Support</a></li>}
           </ul>
         </div>
         <div className="small-12 columns">
           <div className="tabs-content" ref="tabContent" data-tabs-content="product-tabs">
-            <div className="tabs-panel is-active" id="overview" dangerouslySetInnerHTML={this.createMarkup(this.props.product.LongDesc)}>
-            </div>
+	          {this.props.product.LongDesc && <div className="tabs-panel is-active" id="overview" dangerouslySetInnerHTML={this.createMarkup(this.props.product.LongDesc)}></div>}
             <div className="tabs-panel" id="parts">
-              PartList
+	            {this.props.product.PartsList && <PartsList partsList={this.props.product.PartsList} db={this.props.db} />}
             </div>
             <div className="tabs-panel" id="manuals">
-              Manuals
+	            {(manuals.length > 0) && <ul>
+		            {manuals.map((manual) => <li><a href={`http://www.horizonhobby.com/pdf/${manual}`}>{manual}</a></li>)}
+	            </ul>}
             </div>
           </div>
         </div>
