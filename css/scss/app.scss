@@ -231,6 +231,10 @@ i:hover {
   font-weight: bold;
   font-size: 1rem;
 }
+.prodShortDesc {
+	padding: 0 0 0.9375rem;
+	text-align: justify;
+}
 .prodTitle {
   h3 {
     display: inline-block;
@@ -281,7 +285,7 @@ i:hover {
   }
 
   .content {
-    padding: 1.3rem;
+    padding: 0.9375rem;
     font-weight: 600;
     border-radius: 0 0 2px 2px;
 
@@ -319,12 +323,12 @@ i:hover {
     }
   }
   .top {
-    background: #ccddee;
-    color: #567;
+    background: #2199e8;
+    color: #fff;
     .message {
       font-size: .75rem;
       a {
-        color: #567;
+        color: #fff;
       }
     }
   }
