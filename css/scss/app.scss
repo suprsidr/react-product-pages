@@ -240,6 +240,13 @@ i:hover {
     display: inline-block;
   }
 }
+.prodThumb {
+	margin-bottom: .2rem;
+
+	.thumbnail {
+		margin-bottom: 0;
+	}
+}
 .prodRating {
   font-size: 0.75rem;
 }
