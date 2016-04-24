@@ -30,30 +30,43 @@ export default class ProdTabs extends Component {
 		  }
 		  return prev;
 	  }, []);
-    return (
-      <div className="row">
-        <div className="small-12 columns">
-          <ul className="tabs" data-tabs id="product-tabs">
-	          {this.props.product.LongDesc && <li className="tabs-title"><a className="is-active" href="#overview" onClick={(e) => this.onTabClick(e)} aria-selected="true">Overview</a></li>}
-	          {this.props.product.PartsList &&<li className="tabs-title"><a href="#parts" onClick={(e) => this.onTabClick(e)}>Parts &amp; Accessories</a></li>}
-	          {(manuals.length > 0) && <li className="tabs-title"><a href="#manuals" onClick={(e) => this.onTabClick(e)}>Manuals &amp; Support</a></li>}
-          </ul>
-        </div>
-        <div className="small-12 columns">
-          <div className="tabs-content" ref="tabContent" data-tabs-content="product-tabs">
-	          {this.props.product.LongDesc && <div className="tabs-panel is-active" id="overview" dangerouslySetInnerHTML={this.createMarkup(this.props.product.LongDesc)}></div>}
-            <div className="tabs-panel" id="parts">
-	            {this.props.product.PartsList && <PartsList partsList={this.props.product.PartsList} db={this.props.db} />}
-            </div>
-            <div className="tabs-panel" id="manuals">
-	            {(manuals.length > 0) && <ul>
-		            {manuals.map((manual) => <li><a href={`http://www.horizonhobby.com/pdf/${manual}`}>{manual}</a></li>)}
-	            </ul>}
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+	  if(this.props.product.LongDesc || this.props.product.PartsList || manuals.length > 0) {
+		  return (
+				  <div className="row">
+					  <div className="small-12 columns">
+						  <ul className="tabs" data-tabs id="product-tabs">
+							  {this.props.product.LongDesc &&
+							  <li className="tabs-title"><a className="is-active" href="#overview" onClick={(e) => this.onTabClick(e)}
+							                                aria-selected="true">Overview</a></li>}
+							  {this.props.product.PartsList &&
+							  <li className="tabs-title"><a href="#parts" onClick={(e) => this.onTabClick(e)}>Parts &amp;
+								  Accessories</a></li>}
+							  {(manuals.length > 0) &&
+							  <li className="tabs-title"><a href="#manuals" onClick={(e) => this.onTabClick(e)}>Manuals &amp;
+								  Support</a></li>}
+						  </ul>
+					  </div>
+					  <div className="small-12 columns">
+						  <div className="tabs-content" ref="tabContent" data-tabs-content="product-tabs">
+							  {this.props.product.LongDesc && <div className="tabs-panel is-active" id="overview"
+							                                       dangerouslySetInnerHTML={this.createMarkup(this.props.product.LongDesc)}></div>}
+							  <div className="tabs-panel" id="parts">
+								  {this.props.product.PartsList &&
+								  <PartsList partsList={this.props.product.PartsList} db={this.props.db}/>}
+							  </div>
+							  <div className="tabs-panel" id="manuals">
+								  {(manuals.length > 0) && <ul>
+									  {manuals.map((manual) => <li><a href={`http://www.horizonhobby.com/pdf/${manual}`}>{manual}</a>
+									  </li>)}
+								  </ul>}
+							  </div>
+						  </div>
+					  </div>
+				  </div>
+		  )
+	  } else {
+		  return null;
+	  }
   }
 }
 
