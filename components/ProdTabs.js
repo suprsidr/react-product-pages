@@ -21,8 +21,21 @@ export default class ProdTabs extends Component {
     });
   }
   createMarkup(html) {
-    return {__html: html};
-  }
+		let el = document.createElement('div');
+		el.innerHTML = html;
+		Array.from(el.querySelectorAll('iframe[src*="youtube"]')).forEach((iframe) => {
+			let div = document.createElement('div');
+		  let parent = iframe.parentNode;
+			// TODO make sure iframe is not already wrapped by div.flex-video.widescreen
+		  let dup = iframe.cloneNode(false);
+		  /* can we chain these? http://stackoverflow.com/questions/28653761/chaining-html5-classlist-api-without-jquery */
+		  div.classList.add('flex-video');
+		  div.classList.add('widescreen');
+		  div.appendChild(dup);
+		  parent.replaceChild(div, iframe);
+	  });
+		return {__html: el.innerHTML};
+	}
   render() {
 	  let manuals = this.props.product.Attributes.reduce((prev, next) => {
 		  if(next.ID === 'Manual') {
