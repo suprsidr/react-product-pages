@@ -14,6 +14,9 @@ export default class ProdPage extends Component {
 	}
   componentDidMount() {
     this.makeQuery(this.props.params.id);
+	  (document.body ||
+	  document.body.parentNode ||
+	  document.documentElement).scrollTop = 0;
   }
 	makeQuery(id) {
 		this.query({
