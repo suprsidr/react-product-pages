@@ -28,7 +28,7 @@ export class ProdPageProduct extends Component {
       <div className="small-12">
         <div className="row">
           <div className="small-12 columns prodTitle">
-            <p><h3>{this.props.product.Name.replace(/&reg;/g, '')}</h3><strong>{`(${this.props.product.ProdID})`}</strong></p>
+            <h3>{this.props.product.Name.replace(/&reg;/g, '')}</h3><strong>{`(${this.props.product.ProdID})`}</strong>
           </div>
           <div className="small-12 medium-7 large-8 columns">
             <p><img src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=500`} onError={(e) => this.errorHandler(e, 500)} className="hero" alt={this.props.product.Name.replace(/&reg;/g, '')} /></p>
