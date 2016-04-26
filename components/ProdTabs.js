@@ -2,13 +2,19 @@ import React, {Component} from 'react';
 import PartsList from './PartsList';
 
 export default class ProdTabs extends Component {
+	componentDidMount() {
+		let tab = document.querySelector('#product-tabs a');
+		tab && tab.click();
+	}
   onTabClick(e) {
     e.preventDefault();
     e.stopPropagation();
     if(e.target.classList.contains('is-active')) return;
     let sib = e.target.parentNode.parentNode.querySelector('.is-active');
-    sib.classList.remove('is-active');
-    sib.setAttribute('aria-selected', false);
+	  if(sib) {
+		  sib.classList.remove('is-active');
+		  sib.setAttribute('aria-selected', false);
+	  }
     e.target.classList.add('is-active');
     e.target.setAttribute('aria-selected', true);
     let panels = Array.from(this.refs.tabContent.children);
@@ -83,7 +89,7 @@ export default class ProdTabs extends Component {
 							  </div>
 							  <div className="tabs-panel" id="manuals">
 								  {(manuals.length > 0) && <ul>
-									  {manuals.map((manual) => <li><a href={`http://www.horizonhobby.com/pdf/${manual}`}>{manual}</a>
+									  {manuals.map((manual, i) => <li key={i}><a href={`http://www.horizonhobby.com/pdf/${manual}`}>{manual}</a>
 									  </li>)}
 								  </ul>}
 							  </div>
