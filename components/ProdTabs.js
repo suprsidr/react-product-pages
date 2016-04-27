@@ -3,6 +3,7 @@ import PartsList from './PartsList';
 
 export default class ProdTabs extends Component {
 	componentDidMount() {
+		// click first tab
 		let tab = document.querySelector('#product-tabs a');
 		tab && tab.click();
 	}
