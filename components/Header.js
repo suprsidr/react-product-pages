@@ -7,7 +7,7 @@ export default class Header extends Component {
       <div className="top-bar" role="nav">
         <div className="top-bar-left">
           <ul className="menu">
-            <li className="menu-text">POC Brand Site</li>
+            <li className="menu-text hide-for-small-only">POC Brand Site</li>
             <li><IndexLink to="/">Home</IndexLink></li>
             <li><Link to="/products/multirotor" activeStyle={{ color: '#00d8ff' }}>MultiRotor</Link></li>
             <li><Link to="/products/helicopters" activeStyle={{ color: '#00d8ff' }}>Helicopters</Link></li>
@@ -15,7 +15,7 @@ export default class Header extends Component {
           </ul>
         </div>
         <div className="top-bar-right">
-          <ul className="menu">
+          <ul className="menu show-for-medium">
             <li>Built with</li>
             <li>
               <a className="react-link" href="https://facebook.github.io/react/">

@@ -33,13 +33,15 @@ export class ProdPageProduct extends Component {
           </div>
           <div className="small-12 medium-7 large-8 columns text-center">
             <p><img src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=500`} onError={(e) => this.errorHandler(e, 500)} className="hero" alt={this.props.product.Name.replace(/&reg;/g, '')} /></p>
+	          <div className="row">
+		          <div className="small-12 columns">
+			          <ProdMedia product={this.props.product} />
+		          </div>
+	          </div>
           </div>
           <div className="small-12 medium-5 large-4 columns text-center">
             <ProdPriceBox product={this.props.product} />
           </div>
-	        <div className="small-12 columns">
-		        <ProdMedia product={this.props.product} />
-	        </div>
         </div>
         <ProdTabs product={this.props.product} db={this.props.db} />
       </div>
