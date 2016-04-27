@@ -340,3 +340,23 @@ i:hover {
     }
   }
 }
+
+// media slider
+.thumbSlider {
+	overflow-y: hidden;
+	overflow-x: auto;
+	position: relative;
+	height: 110px;
+	margin-bottom: 1rem;
+
+	> div {
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		a {
+			display: inline-block;
+			padding: 5px;
+		}
+	}
+}
