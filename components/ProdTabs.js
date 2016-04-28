@@ -31,6 +31,22 @@ export default class ProdTabs extends Component {
 		// I had this as two separate methods. But then I would be doing the following twice.
 		let el = document.createElement('div');
 		el.innerHTML = html;
+		Array.from(el.querySelectorAll('embed[src*="youtube.com/"]')).forEach((embed) => {
+			// argh! old youtube http://www.youtube.com/v/5sNS220gCjA?version=3&hl=en_US&rel=0
+			if(embed.src.match(/(?:youtube\.com\/v\/)([^?&\s]+)/ig)) {
+				let id = embed.src.split('/v/')[1].split('?')[0];
+				let parent = embed.parentNode;
+				let iframe = document.createElement('iframe');
+				iframe.src = `http://www.youtube.com/embed/${id}?rel=0&amp;wmode=opaque`;
+				iframe.setAttribute('frameborder', 0);
+				iframe.setAttribute('allowfullscreen', 'allowfullscreen');
+				let div = document.createElement('div');
+				div.classList.add('flex-video');
+				div.classList.add('widescreen');
+				div.appendChild(iframe);
+				parent.replaceChild(div, embed);
+			}
+		});
 		Array.from(el.querySelectorAll('iframe[src*="youtube"]')).forEach((iframe) => {
 			let div = document.createElement('div');
 			let parent = iframe.parentNode;
