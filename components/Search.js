@@ -17,31 +17,58 @@ export default class Search extends Component {
     this.makeQuery(searchTerm);
   }
   componentWillReceiveProps(nextProps) {
+	  this.refs.sorrymsg.style.display = 'none';
     const searchTerm = nextProps.params.searchterm || 'all';
     this.makeQuery(searchTerm);
   }
-  makeQuery(category) {
-    let regex;
-    switch(category.toLowerCase()) {
-      case 'multirotor':
-        regex = /^MULTI_(RTF|BNF)/;
-        break;
-      case 'helicopters':
-        regex = /^HELI_(RTF|BNF)/;
-        break;
-      default:
-	      regex = /[A-Z]+_(RTF|BNF)$/;
-		    break;
-    }
-    this.query({
-      Categories: {
-        $elemMatch: {
-          ID: {
-            $regex: regex
-          }
-        }
-      }
-    }, {
+  makeQuery(searchTerm) {
+	  console.log('making query');
+	  let q = {
+		  Categories: {
+			  $elemMatch: {
+				  ID: {
+					  $regex: /[A-Z]+_(RTF|BNF)$/
+				  }
+			  }
+		  }
+	  };
+	  if(searchTerm !== '') {
+		  let regex = new RegExp(searchTerm, 'gi');
+		  q = {
+			  $or: [
+				  {
+					  Categories: {
+						  $elemMatch: {
+							  Name: {
+								  $regex: regex
+							  }
+						  }
+					  }
+				  },
+				  {
+					  ProdID: {
+						  $regex: regex
+					  }
+				  },
+				  {
+					  Desc: {
+						  $regex: regex
+					  }
+				  },
+				  {
+					  LongDesc: {
+						  $regex: regex
+					  }
+				  },
+				  {
+					  Keywords: {
+						  $regex: regex
+					  }
+				  }
+			  ]
+		  };
+	  }
+    this.query(q, {
       limit: 0,
       sort: {
         ProdID: 1
@@ -59,12 +86,17 @@ export default class Search extends Component {
   }
   query(q, p) {
     this.props.db.products.find(q, p).fetch((data) => {
+	    if(data.length < 1) {
+		    this.refs.sorrymsg.style.display = 'block';
+	    }
       this.setState({products: data});
     });
   }
   render() {
     return (
       <div className="row small-up-2 medium-up-3 large-up-4">
+	      <h3>Search Results:</h3>
+	      <p ref="sorrymsg" style={{display: 'none'}}>Sorry, no results for {this.props.params.searchterm}.</p>
         {this.state.products.map((product) => <Product key={product.ProdID} product={product} />)}
       </div>
     )
