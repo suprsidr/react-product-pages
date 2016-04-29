@@ -1,10 +1,11 @@
 var express = require('express');
 var path = require('path');
 var app = express();
-var compress = require('compression');
+var compression = require('compression');
 
+app.use(compression());
 app.use(express.static(path.join(__dirname, './../')));
-app.use(compress());
+
 
 app.get('*', function(req,res) {
   res.sendFile(path.resolve(__dirname,'../index.html'));
