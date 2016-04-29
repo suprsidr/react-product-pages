@@ -5,10 +5,14 @@ export default class Footer extends Component {
     return (
       <footer className="row">
         <div className="small-6 columns">
-          © 2016 Wayne Patterson
+          © 2016 Wayne Patterson<br />
+	        Fork me on <a href="https://github.com/suprsidr/react-product-pages">Github</a>
         </div>
         <div className="small-6 columns text-right">
-          Fork me on <a href="https://github.com/suprsidr/react-product-pages">Github</a>
+	        <a className="react-link" href="https://facebook.github.io/react/"><h4>Built with
+			        <img width="32" height="32" src="/img/react-logo.svg"/>
+			        React
+		        </h4></a>
         </div>
       </footer>
     )
