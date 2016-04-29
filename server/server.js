@@ -6,8 +6,8 @@ var compress = require('compression');
 app.use(express.static(path.join(__dirname, './../')));
 app.use(compress());
 
-app.get('/', function(req,res) {
-  res.sendFile('/index.html');
+app.get('*', function(req,res) {
+  res.sendFile(path.resolve(__dirname,'../index.html'));
 });
 
 app.listen(3000, function() {
