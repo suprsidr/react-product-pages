@@ -1,12 +1,22 @@
 import React, {Component} from 'react';
-import {Link, IndexLink} from 'react-router';
+import {Link, IndexLink, browserHistory} from 'react-router';
 
-export default class Header extends Component {
+class Header extends Component {
 	toggleMenu(e) {
 		e.preventDefault();
 		const menu = document.getElementById('headerMenu');
-		const view = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
-		menu.style.display = view;
+		menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+	}
+	handleSubmit(e) {
+		e.preventDefault();
+		const val = this.refs.search.value || '';
+		browserHistory.push(`/search/${val}`);
+	}
+	handleKeyup(e) {
+		const code = (typeof e.which === "number") ? e.which : e.keyCode;
+		if(code === 13) {
+			this.handleSubmit(e);
+		}
 	}
   render() {
     return (
@@ -22,22 +32,22 @@ export default class Header extends Component {
 		            <li><IndexLink to="/">Home</IndexLink></li>
 		            <li><Link to="/products/multirotor" activeStyle={{ color: '#00d8ff' }}>MultiRotor</Link></li>
 		            <li><Link to="/products/helicopters" activeStyle={{ color: '#00d8ff' }}>Helicopters</Link></li>
-		            <li><Link to="/search" activeStyle={{ color: '#00d8ff' }}>Search</Link></li>
 		          </ul>
 		        </div>
-		        <div className="top-bar-right">
-		          <ul className="menu show-for-large">
-		            <li>Built with</li>
-		            <li>
-		              <a className="react-link" href="https://facebook.github.io/react/">
-		                <img width="36" height="36" src="img/react-logo.svg"/>
-		                React
-		              </a>
-		            </li>
-		          </ul>
-		        </div>
+			      <div className="top-bar-right">
+				      <ul className="menu">
+					      <li><input ref="search" type="search" placeholder="Search" onKeyUp={(e) => this.handleKeyup(e)} /></li>
+					      <li><button type="button" className="button" onClick={(e) => this.handleSubmit(e)}>Search</button></li>
+				      </ul>
+			      </div>
 		      </div>
 		    </div>
     )
   }
 }
+
+Header.contextTypes = {
+	router: React.PropTypes.object
+};
+
+export default Header;

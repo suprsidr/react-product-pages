@@ -19,6 +19,9 @@ footer {
   height: 50px;
   font-size: .8rem;
 }
+p {
+	word-wrap: break-word;
+}
 .row {max-width: 960px;}
 .row .row.collapse {
   margin-left: -0.9375rem;
@@ -42,7 +45,7 @@ footer {
 }
 
 .main_content {
-  //padding-top: 100px;
+  padding-top: 3vw;
 }
 .main_content div {
   position: relative;
@@ -88,27 +91,30 @@ footer {
   background: #222 none repeat scroll 0 0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   color: #fafafa;
-  height: 50px;
+	padding: .5rem;
 	position: relative;
   top: 0;
   width: 100%;
   z-index: 100;
-  margin-bottom: 3rem;
+
+	[type="search"] {
+		margin-right: 0;
+	}
 }
 .top-bar, .top-bar ul, .title-bar {
   background-color: #222;
 }
-.top-bar .react-link {
-  color: #00d8ff;
+.react-link {
+  color: #222;
   display: inline-block;
   font-size: 24px;
   height: 38px;
   font-family: proxima-nova,"Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
   padding: 0 1rem 0 0;
 }
-.top-bar .react-link img {
+.react-link img {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
 }
 .tabs {
   display: inline-block;
