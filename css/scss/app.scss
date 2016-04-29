@@ -203,13 +203,13 @@ i:hover {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   color: #fafafa;
   height: 50px;
-  position: fixed;
+	position: relative;
   top: 0;
   width: 100%;
   z-index: 100;
   margin-bottom: 3rem;
 }
-.top-bar, .top-bar ul {
+.top-bar, .top-bar ul, .title-bar {
   background-color: #222;
 }
 .top-bar .react-link {
@@ -353,5 +353,18 @@ i:hover {
 			display: inline-block;
 			padding: 5px;
 		}
+	}
+}
+
+// top-bar
+@include breakpoint(small only) {
+	.top-bar {
+		 display: none;
+	 }
+}
+
+@include breakpoint(medium) {
+	.title-bar {
+		display: none;
 	}
 }
