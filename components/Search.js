@@ -94,11 +94,15 @@ export default class Search extends Component {
   }
   render() {
     return (
-      <div className="row small-up-2 medium-up-3 large-up-4">
-	      <h3>Search Results:</h3>
-	      <p ref="sorrymsg" style={{display: 'none'}}>Sorry, no results for {this.props.params.searchterm}.</p>
-        {this.state.products.map((product) => <Product key={product.ProdID} product={product} />)}
-      </div>
+		    <div className="row">
+			    <div className="small-12 columns">
+				    <h3>Search Results:</h3>
+				    <p ref="sorrymsg" style={{display: 'none'}}>Sorry, no results for {this.props.params.searchterm}.</p>
+				    <div className="row small-up-2 medium-up-3 large-up-4">
+					    {this.state.products.map((product) => <Product key={product.ProdID} product={product} />)}
+				    </div>
+			    </div>
+		    </div>
     )
   }
 }

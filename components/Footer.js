@@ -10,7 +10,7 @@ export default class Footer extends Component {
         </div>
         <div className="small-6 columns text-right">
 	        <a className="react-link" href="https://facebook.github.io/react/"><h4>Built with
-			        <img width="32" height="32" src="/img/react-logo.svg"/>
+			        <img width="24" height="24" src="/img/react-logo.svg"/>
 			        React
 		        </h4></a>
         </div>

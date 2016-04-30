@@ -100,6 +100,10 @@ p {
 	[type="search"] {
 		margin-right: 0;
 	}
+
+	.top-bar-title {
+		font-size: 1.6rem;
+	}
 }
 .top-bar, .top-bar ul, .title-bar {
   background-color: #222;
@@ -111,6 +115,10 @@ p {
   height: 38px;
   font-family: proxima-nova,"Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
   padding: 0 1rem 0 0;
+
+	h4 {
+		font-size: .7em;
+	}
 }
 .react-link img {
   display: inline-block;
@@ -131,6 +139,9 @@ p {
   h3 {
     display: inline-block;
   }
+}
+.prodPageTitle {
+	text-transform: capitalize;
 }
 .prodThumb {
 	margin-bottom: .2rem;
@@ -245,18 +256,5 @@ p {
 			display: inline-block;
 			padding: 5px;
 		}
-	}
-}
-
-// top-bar
-@include breakpoint(small only) {
-	.top-bar {
-		 display: none;
-	 }
-}
-
-@include breakpoint(medium) {
-	.title-bar {
-		display: none;
 	}
 }
