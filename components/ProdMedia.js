@@ -31,7 +31,6 @@ export default class ProdMedia extends Component {
 				let el = media.pop();
 				media.unshift(el);
 				this.setState({mediaArray: media}, () => document.querySelector('.thumbSlider a').click());
-				;
 			}, 6000)
 		}, false);
 		img.src = src;
