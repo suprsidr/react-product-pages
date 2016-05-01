@@ -8,6 +8,7 @@
     "start": "node server/server.js",
     "start-dev": "node server/dev-server.js",
     "lint": "eslint components",
+    "pm2": "npm run task && pm2 restart 1",
     "task": "webpack"
   },
   "repository": {
