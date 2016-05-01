@@ -27,7 +27,6 @@ export default class ProdMedia extends Component {
 		// our error denotes the last image has loaded, lets start our slideshow
 		img.addEventListener('error', (e) => {
 			window.setInterval(() => {
-				console.log('is this running?');
 				let media = this.state.mediaArray.slice();
 				let el = media.pop();
 				media.unshift(el);

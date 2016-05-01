@@ -13,16 +13,15 @@ export default class Search extends Component {
     //this.setState({category: this.props.params.category.toLowerCase()});
   }
   componentDidMount() {
-    const searchTerm = this.props.params.searchterm || 'all';
+    const searchTerm = this.props.params.searchterm || '';
     this.makeQuery(searchTerm);
   }
   componentWillReceiveProps(nextProps) {
 	  this.refs.sorrymsg.style.display = 'none';
-    const searchTerm = nextProps.params.searchterm || 'all';
+    const searchTerm = nextProps.params.searchterm || '';
     this.makeQuery(searchTerm);
   }
   makeQuery(searchTerm) {
-	  console.log('making query');
 	  let q = {
 		  Categories: {
 			  $elemMatch: {
