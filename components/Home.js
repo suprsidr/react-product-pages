@@ -38,6 +38,9 @@ export default class Home extends Component {
     return (
       <div className="row">
         <div className="small-12 columns">
+          <Orbit linkbase="http://www.bladeHelis.com" imgbase="http://www.bladeHelis.com/Content/Images/Home/" slides={slides} />
+        </div>
+        <div className="small-12 columns">
           <h2>Brand Site POC</h2>
 	        <p>The entire business logic of this site is in ~130K of javascript.</p>
 	        <p>I'm making one single call to the REST API on Digital Ocean to bootstrap the application. I store the data in a browser version of MongoDB(minimongo).</p>
@@ -58,10 +61,6 @@ export default class Home extends Component {
 	          </ul>
 	        </p>
         </div>
-	      <div className="small-12 columns">
-		      <h2>Working on Orbit slider</h2>
-		      <Orbit linkbase="http://www.bladeHelis.com" imgbase="http://www.bladeHelis.com/Content/Images/Home/" slides={slides} />
-	      </div>
       </div>
     )
   }
