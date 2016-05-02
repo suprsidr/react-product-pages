@@ -61,6 +61,9 @@ class Orbit extends Component {
 		let slides = this.state.slides.slice();
 		var active = this.getActive().index;
 		let newActive = parseInt(e.target.dataset.slide);
+    if(newActive === active) {
+      return;
+    }
 		// reset slides
 		slides.map((slide) => {
 			return Object.assign(slide, {
@@ -89,9 +92,9 @@ class Orbit extends Component {
 						<button className="orbit-previous"><span className="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
 						<button className="orbit-next"><span className="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
 						<img className="orbit-image" src={this.props.imgbase + slide1.img} alt={slide1.title} style={{visibility: 'hidden'}}/>
-						{this.state.slides.map((slide, i) => {
+						{this.state.slides.map((slide) => {
 							return (
-									<li key={i} className={slide.classes} style={slide.style}>
+									<li key={slide.index} className={slide.classes} style={slide.style}>
 										<a href={this.props.linkbase + slide.url}>
 											<img className="orbit-image" src={this.props.imgbase + slide.img} alt={slide.title} />
 										</a>
@@ -101,9 +104,9 @@ class Orbit extends Component {
 						})}
 					</ul>
 					<nav className="orbit-bullets">
-						{this.state.slides.map((slide, i) => {
+						{this.state.slides.map((slide) => {
 							return (
-									<button className={slide.active ? 'is-active' : ''} key={i} data-slide={i} onClick={(e) => this.handleBulletClick(e)}><span className="show-for-sr">{slide.title}</span></button>
+									<button className={slide.active ? 'is-active' : ''} key={slide.index} data-slide={slide.index} onClick={(e) => this.handleBulletClick(e)}><span className="show-for-sr">{slide.title}</span></button>
 							)
 						})}
 					</nav>

@@ -267,3 +267,30 @@ p {
 		left: 0;
 	}
 }
+
+// Orbit animations
+.orbit-slide {
+  &.slide-out-left {
+    animation: slide-out-to-left .5s linear
+  }
+  &.slide-in-right {
+    animation: slide-in-from-right .5s linear
+  }
+}
+
+@keyframes slide-out-to-left {
+  from {
+    left: 0;
+  }
+  to {
+    left: -100%;
+  }
+}
+@keyframes slide-in-from-right {
+  from {
+    left: 100%;
+  }
+  to {
+    left: 0;
+  }
+}
