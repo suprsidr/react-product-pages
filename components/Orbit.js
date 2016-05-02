@@ -42,17 +42,17 @@ class Orbit extends Component {
 			this.setState({slides: slides});
 		}, 6000)*/
 	}
-	getWasActive(slide) {
+	getWasActive(slide, side='left') {
 		return Object.assign(slide, {
 			active: false,
-			classes: 'orbit-slide slide-out-left mui-leave mui-leave-active',
+			classes: `orbit-slide slide-out-${side}`,
 			style: {display: 'block'}
 		});
 	}
-	getNewActive(slide) {
+	getNewActive(slide, side='right') {
 		return Object.assign(slide, {
 			active: true,
-			classes: 'orbit-slide slide-in-right mui-enter mui-enter-active',
+			classes: `orbit-slide active slide-in-${side}`,
 			style: {display: 'block'}
 		});
 	}
@@ -72,8 +72,14 @@ class Orbit extends Component {
 				style: {display: 'none'}
 			});
 		});
-		slides[active] = this.getWasActive(slides[active]);
-		slides[newActive] = this.getNewActive(slides[newActive]);
+    if(newActive < active) {
+      slides[active] = this.getWasActive(slides[active], 'right');
+      slides[newActive] = this.getNewActive(slides[newActive], 'left');
+    } else {
+      slides[active] = this.getWasActive(slides[active]);
+      slides[newActive] = this.getNewActive(slides[newActive]);
+    }
+
 		this.setState({slides: slides});
 	}
 	getActive() {
