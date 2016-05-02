@@ -4,7 +4,7 @@ import Orbit from './Orbit';
 const slides = [
 	{
 		img: 'BLH1550.jpg',
-		url: '/Night230S',
+		url: '/product/BLH1550',
 		title: 'Night 230 S BNF'
 	},
 	{
@@ -14,22 +14,22 @@ const slides = [
 	},
 	{
 		img: 'BLH7360.jpg',
-		url: '/Zeyrok',
+		url: '/search/zeyrok',
 		title: 'Zeyrok'
 	},
 	{
 		img: 'BLH9080.jpg',
-		url: '/Inductrix200',
+		url: '/product/BLH9080',
 		title: 'Inductrix 200'
 	},
 	{
 		img: 'BLH4100.jpg',
-		url: '/120s',
+		url: '/product/BLH4100',
 		title: '120 S'
 	},
 	{
 		img: 'vortex250pro.jpg',
-		url: '/VortexPro',
+		url: '/product/BLH9250',
 		title: 'Vortex 250 Pro'
 	}
 ];
@@ -38,7 +38,7 @@ export default class Home extends Component {
     return (
       <div className="row">
         <div className="small-12 columns">
-          <Orbit linkbase="http://www.bladeHelis.com" imgbase="http://www.bladeHelis.com/Content/Images/Home/" slides={slides} />
+          <Orbit linkbase="" imgbase="http://www.bladeHelis.com/Content/Images/Home/" slides={slides} />
         </div>
         <div className="small-12 columns">
           <h2>Brand Site POC</h2>
@@ -57,7 +57,7 @@ export default class Home extends Component {
 		          <li>Make a presentable homepage</li>
 		          <li>Tweak mobile styles a bit</li>
 		          <li>Make product page slideshow more user friendly</li>
-		          <li>Integrate jQuery - Everything so far is without jQuery.<br />But it would be useful for some stuff like Foundation.</li>
+		          <li><s>Integrate jQuery - Everything so far is without jQuery.<br />But it would be useful for some stuff like Foundation.</s></li>
 	          </ul>
 	        </p>
         </div>
