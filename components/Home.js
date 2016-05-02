@@ -1,5 +1,38 @@
 import React, {Component} from 'react';
+import Orbit from './Orbit';
 
+const slides = [
+	{
+		img: 'BLH1550.jpg',
+		url: '/Night230S',
+		title: 'Night 230 S BNF'
+	},
+	{
+		img: 'BLH9180.jpg',
+		url: '/NanoQXFPV2',
+		title: 'Nano QX FPV2'
+	},
+	{
+		img: 'BLH7360.jpg',
+		url: '/Zeyrok',
+		title: 'Zeyrok'
+	},
+	{
+		img: 'BLH9080.jpg',
+		url: '/Inductrix200',
+		title: 'Inductrix 200'
+	},
+	{
+		img: 'BLH4100.jpg',
+		url: '/120s',
+		title: '120 S'
+	},
+	{
+		img: 'vortex250pro.jpg',
+		url: '/VortexPro',
+		title: 'Vortex 250 Pro'
+	}
+];
 export default class Home extends Component {
   render() {
     return (
@@ -25,6 +58,10 @@ export default class Home extends Component {
 	          </ul>
 	        </p>
         </div>
+	      <div className="small-12 columns">
+		      <h2>Working on Orbit slider</h2>
+		      <Orbit linkbase="http://www.bladeHelis.com" imgbase="http://www.bladeHelis.com/Content/Images/Home/" slides={slides} />
+	      </div>
       </div>
     )
   }
