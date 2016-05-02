@@ -80,6 +80,12 @@ export default class ProdTabs extends Component {
 		  }
 		  return prev;
 	  }, []);
+    let specs = this.props.product.Attributes.reduce((prev, next) => {
+      if(next.ID.match(/^spec_/i)) {
+        prev.push(next);
+      }
+      return prev;
+    }, []).sort((a, b) => a.ID > b.ID);
 	  if(this.props.product.LongDesc || this.props.product.PartsList || manuals.length > 0) {
 		  return (
 				  <div className="row">
@@ -88,6 +94,8 @@ export default class ProdTabs extends Component {
 							  {this.props.product.LongDesc &&
 							  <li className="tabs-title"><a className="is-active" href="#overview" onClick={(e) => this.onTabClick(e)}
 							                                aria-selected="true">Overview</a></li>}
+                {(specs.length > 0) &&
+                <li className="tabs-title"><a href="#specs" onClick={(e) => this.onTabClick(e)}>Specs</a></li>}
 							  {this.props.product.PartsList &&
 							  <li className="tabs-title"><a href="#parts" onClick={(e) => this.onTabClick(e)}>Parts &amp;
 								  Accessories</a></li>}
@@ -100,6 +108,19 @@ export default class ProdTabs extends Component {
 						  <div className="tabs-content" ref="tabContent" data-tabs-content="product-tabs">
 							  {this.props.product.LongDesc && <div className="tabs-panel is-active" id="overview"
 							                                       dangerouslySetInnerHTML={this.createMarkup(this.props.product.LongDesc)}></div>}
+                <div className="tabs-panel" id="specs">
+                  {(specs.length > 0) && <table>
+                    <tbody>
+                    {specs.map((spec, i) => (
+                        <tr>
+                          <td>{spec.ID.replace(/^spec_/gi, '').replace(/_/g, ' ')}</td>
+                          <td>{spec.Name}</td>
+                        </tr>
+                      )
+                    )}
+                    </tbody>
+                  </table>}
+                </div>
 							  <div className="tabs-panel" id="parts">
 								  {this.props.product.PartsList &&
 								  <PartsList partsList={this.props.product.PartsList} db={this.props.db}/>}
