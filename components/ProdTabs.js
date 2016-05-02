@@ -74,6 +74,7 @@ export default class ProdTabs extends Component {
 		return {__html: html};
 	}
   render() {
+	  const regex = new RegExp('P_' + this.props.product.ProdID);
 	  let manuals = this.props.product.Attributes.reduce((prev, next) => {
 		  if(next.ID === 'Manual') {
 			  prev = Array.isArray(next.Name) ? next.Name : [next.Name];
@@ -82,11 +83,12 @@ export default class ProdTabs extends Component {
 	  }, []);
     let specs = this.props.product.Attributes.reduce((prev, next) => {
       if(next.ID.match(/^spec_/i)) {
-        prev.push(next);
+	      const name = Array.isArray(next.Name) ? next.Name.join(', ') : next.Name;
+        prev.push({ID: next.ID.replace(/^spec_/gi, '').replace(/_/g, ' '), Name: name.replace(regex, '')});
       }
       return prev;
     }, []).sort((a, b) => a.ID > b.ID);
-    const regex = new RegExp('P_' + this.props.product.ProdID);
+
 	  if(this.props.product.LongDesc || this.props.product.PartsList || manuals.length > 0) {
 		  return (
 				  <div className="row">
@@ -114,8 +116,8 @@ export default class ProdTabs extends Component {
                     <tbody>
                     {specs.map((spec, i) => (
                         <tr>
-                          <td>{spec.ID.replace(/^spec_/gi, '').replace(/_/g, ' ')}</td>
-                          <td>{spec.Name.replace(regex, '')}</td>
+                          <td>{spec.ID}</td>
+                          <td>{spec.Name}</td>
                         </tr>
                       )
                     )}
