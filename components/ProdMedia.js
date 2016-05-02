@@ -10,6 +10,9 @@ export default class ProdMedia extends Component {
 	componentDidMount() {
 		this.getMedia();
 	}
+  componentWillUnmount() {
+    this.interval && window.clearInterval(this.interval);
+  }
 	handleClick(e, idx) {
 		e.preventDefault();
 		document.querySelector('.hero').src = `http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a${idx}?wid=500&hei=500`;
@@ -26,7 +29,7 @@ export default class ProdMedia extends Component {
 		}, false);
 		// our error denotes the last image has loaded, lets start our slideshow
 		img.addEventListener('error', (e) => {
-			window.setInterval(() => {
+			this.interval = window.setInterval(() => {
 				let media = this.state.mediaArray.slice();
 				let el = media.pop();
 				media.unshift(el);
