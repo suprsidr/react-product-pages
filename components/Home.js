@@ -9,7 +9,7 @@ const slides = [
 	},
 	{
 		img: 'BLH9180.jpg',
-		url: '/NanoQXFPV2',
+		url: '/product/BLH9180',
 		title: 'Nano QX FPV2'
 	},
 	{
