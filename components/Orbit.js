@@ -21,8 +21,11 @@ class Orbit extends Component {
   pause(bool) {
     this.paused = bool;
   }
+  componentWillUnmount() {
+    window.clearInterval(this.interval);
+  }
 	componentDidMount() {
-		window.setInterval(() => {
+		this.interval = window.setInterval(() => {
 			if(!this.paused) {
         this.refs.next.click();
       }
