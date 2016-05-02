@@ -40,7 +40,7 @@ class Orbit extends Component {
 				return slide;
 			});
 			this.setState({slides: slides});
-		}, 6000)*/
+		}, 5000)*/
 	}
 	getWasActive(slide, side='left') {
 		return Object.assign(slide, {
@@ -59,7 +59,7 @@ class Orbit extends Component {
 	handleBulletClick(e) {
 		e.preventDefault();
 		let slides = this.state.slides.slice();
-		var active = this.getActive().index;
+		let active = this.getActive().index;
 		let newActive = parseInt(e.target.dataset.slide);
     if(newActive === active) {
       return;
@@ -79,7 +79,6 @@ class Orbit extends Component {
       slides[active] = this.getWasActive(slides[active]);
       slides[newActive] = this.getNewActive(slides[newActive]);
     }
-
 		this.setState({slides: slides});
 	}
 	getActive() {
@@ -90,13 +89,25 @@ class Orbit extends Component {
 			return cur;
 		}, {});
 	}
+  nextClick(e) {
+    e.preventDefault();
+    let active = this.getActive().index;
+    e.target.dataset.slide = active === this.state.slides.length - 1 ? 0 : active + 1;
+    this.handleBulletClick(e);
+  }
+  previousClick(e) {
+    e.preventDefault();
+    let active = this.getActive().index;
+    e.target.dataset.slide = active === 0 ? this.state.slides.length - 1 : active - 1;
+    this.handleBulletClick(e)
+  }
 	render() {
 		const slide1 = this.state.slides[0];
 		return (
 				<div className="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
 					<ul className="orbit-container">
-						<button className="orbit-previous"><span className="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
-						<button className="orbit-next"><span className="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+						<button className="orbit-previous" onClick={(e) => this.previousClick(e)}><span className="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+						<button className="orbit-next" onClick={(e) => this.nextClick(e)}><span className="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
 						<img className="orbit-image" src={this.props.imgbase + slide1.img} alt={slide1.title} style={{visibility: 'hidden'}}/>
 						{this.state.slides.map((slide) => {
 							return (
