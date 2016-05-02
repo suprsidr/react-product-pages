@@ -47,17 +47,16 @@ export default class ProdMedia extends Component {
 	}
 	render() {
 		return (
-				<div ref="thumbSlider" className="row thumbSlider">
-					<div className="small-12" style={this.calculateStyles()}>
+				<div className="thumbSlider">
+					<div style={this.calculateStyles()}>
 						{(this.state.mediaArray.length > 0) && this.state.mediaArray.map((item, i) => {
 							return (
 								<a
-										key={i}
-										style={{display: 'inline-block'}}
-										href={`#${this.props.product.ProdID}_a${item.idx}`}
-										onClick={(e) => this.handleClick(e, item.idx)}
-								    style={this.getThumbStyle()}
-								>
+                  key={i}
+                  style={{display: 'inline-block'}}
+                  href={`#${this.props.product.ProdID}_a${item.idx}`}
+                  onClick={(e) => this.handleClick(e, item.idx)}
+                  style={this.getThumbStyle()}>
 									<img src={item.src}/>
 								</a>
 							)
