@@ -6,6 +6,7 @@ class Orbit extends Component {
 		this.state = {
 			slides: []
 		};
+    this.paused = false;
 	}
 	componentWillMount() {
 		this.setState({slides: this.props.slides.map((slide, i) => {
@@ -17,30 +18,15 @@ class Orbit extends Component {
 			return slide;
 		})});
 	}
+  pause(bool) {
+    this.paused = bool;
+  }
 	componentDidMount() {
-		/*window.setInterval(() => {
-			let nextSlide = false;
-			let slides = this.state.slides.slice().map((slide) => {
-				if(nextSlide === true) {
-					nextSlide = false;
-					slide.active = true;
-					slide.classes = 'orbit-slide slide-in-right mui-enter mui-enter-active';
-					slide.style = {display: 'block'};
-					return slide;
-				}
-				if(slide.active) {
-					slide.active = false;
-					slide.classes = 'orbit-slide slide-out-left mui-leave mui-leave-active';
-					slide.style = {display: 'block'};
-					nextSlide = true;
-				} else {
-					slide.classes = 'orbit-slide';
-					slide.style = {display: 'none'};
-				}
-				return slide;
-			});
-			this.setState({slides: slides});
-		}, 5000)*/
+		window.setInterval(() => {
+			if(!this.paused) {
+        this.refs.next.click();
+      }
+		}, 5000)
 	}
 	getWasActive(slide, side='left') {
 		return Object.assign(slide, {
@@ -104,10 +90,10 @@ class Orbit extends Component {
 	render() {
 		const slide1 = this.state.slides[0];
 		return (
-				<div className="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
+				<div className="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit onMouseEnter={(e) => this.pause(true)} onMouseLeave={(e) => this.pause(false)}>
 					<ul className="orbit-container">
-						<button className="orbit-previous" onClick={(e) => this.previousClick(e)}><span className="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
-						<button className="orbit-next" onClick={(e) => this.nextClick(e)}><span className="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+						<button ref="prev" className="orbit-previous" onClick={(e) => this.previousClick(e)}><span className="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+						<button ref="next" className="orbit-next" onClick={(e) => this.nextClick(e)}><span className="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
 						<img className="orbit-image" src={this.props.imgbase + slide1.img} alt={slide1.title} style={{visibility: 'hidden'}}/>
 						{this.state.slides.map((slide) => {
 							return (
