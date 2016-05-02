@@ -86,6 +86,7 @@ export default class ProdTabs extends Component {
       }
       return prev;
     }, []).sort((a, b) => a.ID > b.ID);
+    const regex = new RegExp('P_' + this.props.product.ProdID);
 	  if(this.props.product.LongDesc || this.props.product.PartsList || manuals.length > 0) {
 		  return (
 				  <div className="row">
@@ -114,7 +115,7 @@ export default class ProdTabs extends Component {
                     {specs.map((spec, i) => (
                         <tr>
                           <td>{spec.ID.replace(/^spec_/gi, '').replace(/_/g, ' ')}</td>
-                          <td>{spec.Name}</td>
+                          <td>{spec.Name.replace(regex, '')}</td>
                         </tr>
                       )
                     )}
