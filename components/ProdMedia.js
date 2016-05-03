@@ -29,12 +29,14 @@ export default class ProdMedia extends Component {
 		}, false);
 		// our error denotes the last image has loaded, lets start our slideshow
 		img.addEventListener('error', (e) => {
-			this.interval = window.setInterval(() => {
-				let media = this.state.mediaArray.slice();
-				let el = media.pop();
-				media.unshift(el);
-				this.setState({mediaArray: media}, () => document.querySelector('.thumbSlider a').click());
-			}, 6000)
+			if(this.state.mediaArray.length > 0) {
+				this.interval = window.setInterval(() => {
+					let media = this.state.mediaArray.slice();
+					let el = media.pop();
+					media.unshift(el);
+					this.setState({mediaArray: media}, () => document.querySelector('.thumbSlider a').click());
+				}, 6000);
+			}
 		}, false);
 		img.src = src;
 	}
