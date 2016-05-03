@@ -84,7 +84,7 @@ export default class ProdTabs extends Component {
     let specs = this.props.product.Attributes.reduce((prev, next) => {
       if(next.ID.match(/^spec_/i)) {
 	      const name = Array.isArray(next.Name) ? next.Name.join(', ') : next.Name;
-        prev.push({ID: next.ID.replace(/^spec_/gi, '').replace(/_/g, ' '), Name: name.replace(regex, '')});
+        prev.push({ID: next.ID.replace(/(^spec_|facet_)/gi, '').replace(/_/g, ' '), Name: name.replace(regex, '')});
       }
       return prev;
     }, []).sort((a, b) => a.ID > b.ID);
@@ -115,7 +115,7 @@ export default class ProdTabs extends Component {
                   {(specs.length > 0) && <table>
                     <tbody>
                     {specs.map((spec, i) => (
-                        <tr>
+                        <tr key={i}>
                           <td>{spec.ID}</td>
                           <td>{spec.Name}</td>
                         </tr>
