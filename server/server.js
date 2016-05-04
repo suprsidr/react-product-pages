@@ -8,7 +8,6 @@ app.use(compression());
 app.use(express.static(path.join(__dirname, '../')));
 
 app.get('/static/:id', function(req, res) {
-  console.log(req.params.id);
   var file = path.join(__dirname, '../content/', req.params.id, 'Default.html');
   fs.exists( file, function(exists) {
     if(exists) {
