@@ -10,13 +10,14 @@ export default class StaticContent extends Component {
   }
   componentWillMount() {
     request
-      .get(`/static/${this.props.prodid}`)
+      .get(`/static/${this.props.product.ProdID}`)
       .end((err, res) => {
         err ? console.log(err) : '';
         if(res.text === 'not found') {
           console.log('not found')
         } else {
           this.setState({html: res.text})
+          this.props.updateParent({childLoaded: true})
         }
       });
   }
@@ -25,8 +26,8 @@ export default class StaticContent extends Component {
   }
   render() {
     return (
-      <div>
-        {this.state.html && <div className="static-overview" dangerouslySetInnerHTML={this.createMarkup(this.state.html)}></div>}
+      <div className="row">
+        {this.state.html && <div className="small-12 static-overview" dangerouslySetInnerHTML={this.createMarkup(this.state.html)}></div>}
       </div>
     )
   }
