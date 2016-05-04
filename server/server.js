@@ -21,7 +21,7 @@ app.get('/static/:id', function(req, res) {
   });
 });
 
-app.get('*', function(req,res) {
+app.get(/^\/(\*|products\/*|product\/*|search\/*)/, function(req,res) {
   res.sendFile(path.resolve(__dirname,'../index.html'));
 });
 
