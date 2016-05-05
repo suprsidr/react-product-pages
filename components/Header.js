@@ -35,6 +35,7 @@ class Header extends Component {
 				    <MenuItem><IndexLink to="/">Home</IndexLink></MenuItem>
 				    <MenuItem><Link to="/products/multirotor" activeStyle={{ color: '#00d8ff' }}>MultiRotor</Link></MenuItem>
 				    <MenuItem><Link to="/products/helicopters" activeStyle={{ color: '#00d8ff' }}>Helicopters</Link></MenuItem>
+            <MenuItem><Link to="/video" activeStyle={{ color: '#00d8ff' }}>Videos</Link></MenuItem>
 			    </Menu>
 		    </TopBarLeft>
 		    <TopBarRight>

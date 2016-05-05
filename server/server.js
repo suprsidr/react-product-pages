@@ -20,7 +20,7 @@ app.get('/static/:id', function(req, res) {
   });
 });
 
-app.get(/^\/(\*|products\/*|product\/*|search\/*)/, function(req,res) {
+app.get(/^\/(\*|products\/*|product\/*|search\/*|video)/, function(req,res) {
   res.sendFile(path.resolve(__dirname,'../index.html'));
 });
 
