@@ -21,7 +21,7 @@ class Header extends Component {
 		browserHistory.push(`/search/${val}`);
 	}
 	handleKeyup(e) {
-		const code = (typeof e.which === "number") ? e.which : e.keyCode;
+		const code = (typeof e.which === 'number') ? e.which : e.keyCode;
 		if(code === 13) {
 			this.handleSubmit(e);
 		}
