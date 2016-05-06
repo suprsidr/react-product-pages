@@ -6,10 +6,10 @@ export default class Video extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username : '',//'HorizonHobbyProducts',
-      key : '',//'AIzaSyDKzdYCBqdtu0F8oAh2GPB4K2RExdyUzkA',
-      earl : 'https://www.googleapis.com/youtube/v3',
-      channelId : '',
+      username: '',
+      apiKey: '',
+      earl: 'https://www.googleapis.com/youtube/v3',
+      channelId: '',
       videoList: '',
       channels: [],
       playlists: [],
@@ -32,7 +32,11 @@ export default class Video extends Component {
       prevArrowDisplay: 'none',
       message: ''
     };
+  }
 
+  componentWillMount() {
+  }
+  componentDidMount() {
     this.element = this.refs.videoContainer;
     this.thumbList = this.refs.thumbList;
     this.iframe = this.refs.iframe;
@@ -47,22 +51,6 @@ export default class Video extends Component {
     this.playlistSelector = this.refs.playlistSelector;
     this.message = this.refs.message;
     this.isTouch = false;
-  }
-
-  componentWillMount() {
-    request
-      .get(this.state.earl)
-      .use(jsonp)
-      .query({
-        key: 'AIzaSyDKzdYCBqdtu0F8oAh2GPB4K2RExdyUzkA',
-
-      })
-      .end((err, res) => {
-        err ? console.log(err) : '';
-        console.log(res.body);
-      });
-  }
-  componentDidMount() {
     this.init();
   }
   handleSearchClick(e) {
@@ -77,7 +65,7 @@ export default class Video extends Component {
   }
   handlePlayListItemClick(e) {
     e.preventDefault();
-    const data = e.target.dataSet;
+    const data = e.target.dataset;
     this.setState({
       currentPlaylist: data.title
     }, () => {
@@ -88,7 +76,8 @@ export default class Video extends Component {
   }
   handleChannelListItemClick(e) {
     e.preventDefault();
-    const data = e.target.dataSet;
+    const data = e.target.dataset;
+    this.setState({currentChannel: data.name});
     switch (data.type) {
       case 'channelid':
         this.getId(data.id);
@@ -96,7 +85,7 @@ export default class Video extends Component {
         this.searchContainer.style.display = 'block';
         break;
       case 'username':
-        this.getId(data.id);
+        this.getId(data.id, true);
         this.searchBox.value = '';
         this.searchContainer.style.display = 'block';
         break;
@@ -107,24 +96,21 @@ export default class Video extends Component {
         this.playlistSelector.style.display = 'none';
         break;
     }
-    if(data.type === 'channelid') {
-      this.getId(data.type);
-    } else if(data.type === 'username') {
-      this.getId(data.username, true);
-    }
-    this.searchBox.value = '';
-    this.searchContainer.style.display = 'block';
-    this.setState({currentChannel: data.name});
+
   }
   handleThumnailItemClick(e) {
     e.preventDefault();
-    const data = e.target.dataSet;
+    const data = e.currentTarget.dataset;
     this.setState({
       currentIframeSrc: `//www.youtube.com/embed/${data.id}${this.state.urlParams}`,
       currentDescription: this.filterText(data.desc),
       currentTitle: data.title,
-      hasMore: data.desc.length > 300 ? 'hasMore' : ''
+      hasMore: data.desc.length > 300 ? 'has-more' : ''
     })
+  }
+  handleMoreClick(e) {
+    e.preventDefault();
+    this.setState({hasMore: ''});
   }
   init() {
     if(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
@@ -134,13 +120,18 @@ export default class Video extends Component {
     this.setState({...this.props}, () => {
       if(this.state.videoList.length) {
         this.getVideoItems(this.state.videoList);
+      } else if(this.state.channels.length > 0) {
+        this.channelContainer.querySelector('a').click();
+      } else if(this.state.username !== '') {
+        this.getId(this.state.username, true);
+        this.channelContainer.querySelector('a').click();
       }
     });
   }
   getId(id, name) {
 	  var data = {
 		  part: 'id, contentDetails',
-		  key: this.state.key,
+		  key: this.state.apiKey,
 		  maxResults: this.state.maxResults
 	  };
 	  if(name) {
@@ -154,12 +145,14 @@ export default class Video extends Component {
 		  .query(data)
 		  .end((err, res) => {
 			  err ? console.log(err) : '';
-			  if(res.body.items && res.body.items[0].id){
+        console.log('getID: ', res);
+			  if(res.body.items && res.body.items.length > 0 && res.body.items[0].id){
 				  this.setState({
 					  channelId: res.body.items[0].id,
 					  uploadsPlaylistId: res.body.items[0].contentDetails.relatedPlaylists.uploads
 				  }, () => {
-					  this.getPlaylistItems(this.state.uploadsPlaylistId);
+            console.log('state updated: ', this.state);
+            this.state.uploadsPlaylistId && this.getPlaylistItems(this.state.uploadsPlaylistId);
 					  this.playlistSelector.style.display = 'block';
 					  this.getPlaylists();
 				  });
@@ -167,12 +160,11 @@ export default class Video extends Component {
 		  });
   }
   getSearchItems() {
-
   }
   getPlaylists() {
     const data = {
       part: 'snippet,contentDetails',
-      key: this.state.key,
+      key: this.state.apiKey,
       channelId: this.state.channelId,
       maxResults: 50
     };
@@ -190,6 +182,7 @@ export default class Video extends Component {
             }
           });
           this.setState({
+            playlists: res.body.items,
             nextArrowDisplay: 'none',
             prevArrowDisplay: 'none',
             currentPlaylistItems: res.body.items,
@@ -202,7 +195,7 @@ export default class Video extends Component {
   getPlaylistItems(playlistId, token) {
     const data = {
       part: 'snippet,contentDetails',
-      key: this.state.key,
+      key: this.state.apiKey,
       playlistId: playlistId,
       maxResults: this.state.maxResults,
       order: 'date', // rating, relevance, title, videoCount and viewCount
@@ -220,10 +213,6 @@ export default class Video extends Component {
             nextArrowDisplay: 'none',
             prevArrowDisplay: 'none',
             currentThumnailItems: res.body.items
-          }, () => {
-            this.getPlaylistItems(this.state.uploadsPlaylistId);
-            this.playlistSelector.style.display = 'block';
-            this.getPlaylists();
           });
         }
       });
@@ -271,7 +260,9 @@ export default class Video extends Component {
         <div className="row">
           <div ref="descContainer" className="large-12 medium-12 small-12 columns desc-container under">
             <h4>{this.state.currentTitle}</h4>
-            <p className={this.state.hasMore}>{this.state.currentDescription}{(this.state.hasMore !== '') && <a href="more" className="more">Read More...</a>}</p>
+            <p className={this.state.hasMore}>
+              {this.state.currentDescription}{(this.state.hasMore !== '') && <a href="more" className="more" onClick={(e) => this.handleMoreClick(e)} >Read More...</a>}
+            </p>
           </div>
         </div>
         <div ref="controlBar" className="row control-bar">
@@ -299,7 +290,7 @@ export default class Video extends Component {
             <div ref="playlistSelector" className="playlist-selector">
               <h5 ref="currentPlaylist" className="current-playlist">{this.state.currentPlaylist}</h5>
               <ul className="sub-menu">
-                {this.state.playlist.map((item, i) => (
+                {this.state.playlists.map((item, i) => (
                   <li key={i}>
                     <a
                       className={item.type}
@@ -328,21 +319,21 @@ export default class Video extends Component {
         <div className="row">
           <div className="large-12 medium-12 small-12 columns thumbs-list-container">
             <a ref="prevArrow" className="prev-arrow"></a><a ref="nextArrow" className="next-arrow"></a>
-            <ul ref="thumbList" className="small-block-grid-2 medium-block-grid-5 large-block-grid-5 thumbs-list">
+            <div ref="thumbList" className="row small-up-2 medium-up-4 large-up-5 thumbs-list">
               {this.state.currentThumnailItems.map((item, i) => (
-                <li key={i}>
+                <div className="column text-center" key={i}>
                   <a
                     href="#"
-                    data-id={item.id}
+                    data-id={item.snippet.resourceId.videoId}
                     data-title={item.contentDetails.note || item.snippet.title}
                     data-desc={item.snippet.description || ''}
-                    onClick={(e) => this.handleThumnailItemClick(e)}>
+                    onClick={(e) => this.handleThumnailItemClick(e)} >
                     <img src={item.snippet.thumbnails.medium.url} />
                   </a>
                   <p>{item.contentDetails.note || item.snippet.title}</p>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
       </section>
