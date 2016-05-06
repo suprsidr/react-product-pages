@@ -109,7 +109,33 @@ export default class Video extends Component {
     this.setState({...this.props})
   }
   getId(id, name) {
-
+	  var data = {
+		  part: 'id, contentDetails',
+		  key: this.state.key,
+		  maxResults: this.state.maxResults
+	  };
+	  if(name) {
+		  data.forUsername = id;
+	  } else {
+		  data.id = id;
+	  }
+	  request
+		  .get(this.state.earl + '/channels')
+		  .use(jsonp)
+		  .query(data)
+		  .end((err, res) => {
+			  err ? console.log(err) : '';
+			  if(res.body.items && res.body.items[0].id){
+				  this.setState({
+					  channelId: res.body.items[0].id,
+					  uploadsPlaylistId: res.body.items[0].contentDetails.relatedPlaylists.uploads
+				  }, () => {
+					  this.getPlaylistItems(this.state.uploadsPlaylistId);
+					  this.playlistSelector.style.display = 'block';
+					  this.getPlaylists();
+				  });
+			  }
+		  });
   }
   getSearchItems() {
 
