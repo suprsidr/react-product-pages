@@ -29,7 +29,8 @@ export default class Video extends Component {
       showChannelPlaylists: true,
       urlParams: '?theme=light&autoplay=1&wmode=opaque&rel=0',
       nextArrowDisplay: 'none',
-      prevArrowDisplay: 'none'
+      prevArrowDisplay: 'none',
+      message: ''
     };
 
     this.element = this.refs.videoContainer;
@@ -44,7 +45,7 @@ export default class Video extends Component {
     this.searchBox = this.refs.searchBox;
     this.searchContainer = this.refs.searchContainer;
     this.playlistSelector = this.refs.playlistSelector;
-    this.msg = this.refs.message;
+    this.message = this.refs.message;
     this.isTouch = false;
   }
 
@@ -75,7 +76,15 @@ export default class Video extends Component {
     }
   }
   handlePlayListItemClick(e) {
-
+    e.preventDefault();
+    const data = e.target.dataSet;
+    this.setState({
+      currentPlaylist: data.title
+    }, () => {
+      this.searchContainer.style.display = 'none';
+      this.searchBox.value = '';
+      this.getPlaylistItems(data.id)
+    })
   }
   handleChannelListItemClick(e) {
     e.preventDefault();
@@ -122,7 +131,11 @@ export default class Video extends Component {
       document.querySelector('html').classList.add('touch');
       this.isTouch = true;
     }
-    this.setState({...this.props})
+    this.setState({...this.props}, () => {
+      if(this.state.videoList.length) {
+        this.getVideoItems(this.state.videoList);
+      }
+    });
   }
   getId(id, name) {
 	  var data = {
@@ -157,14 +170,41 @@ export default class Video extends Component {
 
   }
   getPlaylists() {
+    const data = {
+      part: 'snippet,contentDetails',
+      key: this.state.key,
+      channelId: this.state.channelId,
+      maxResults: 50
+    };
+    request
+      .get(this.state.earl + '/playlists')
+      .use(jsonp)
+      .query(data)
+      .end((err, res) => {
+        err ? console.log(err) : '';
+        if(res.body.items && res.body.items.length > 0){
+          res.body.items.unshift({
+            id: this.state.uploadsPlaylistId,
+            snippet: {
+              title: 'Uploads'
+            }
+          });
+          this.setState({
+            nextArrowDisplay: 'none',
+            prevArrowDisplay: 'none',
+            currentPlaylistItems: res.body.items,
+            currentPlaylist: res.body.items[0].snippet.title
+          });
+        }
+      });
 
   }
   getPlaylistItems(playlistId, token) {
     const data = {
       part: 'snippet,contentDetails',
-      key: self.options.key,
+      key: this.state.key,
       playlistId: playlistId,
-      maxResults: self.options.maxResults,
+      maxResults: this.state.maxResults,
       order: 'date', // rating, relevance, title, videoCount and viewCount
       pageToken: token || ''
     };
@@ -187,10 +227,34 @@ export default class Video extends Component {
           });
         }
       });
+  }
+  getVideoItems(videoList) {
+    const data = {
+      id: videoList,
+      part: 'snippet',
+      key: self.options.key
+    };
+    request
+      .get(this.state.earl + '/videos')
+      .use(jsonp)
+      .query(data)
+      .end((err, res) => {
+        err ? console.log(err) : '';
+        if(res.body.items && res.body.items.length > 0){
+          this.setState({
+            nextArrowDisplay: 'none',
+            prevArrowDisplay: 'none',
+            currentThumnailItems: res.body.items
+          });
+        }
+      });
 
   }
-  getVideoItems() {
-
+  displayMsg(txt) {
+    this.setState({message: txt}, ()=> this.message.style.height = '20px');
+    setTimeout(function(){
+      this.setState({message: ''}, ()=> this.message.style.height = '0px');
+    }, 4000);
   }
   // create clickableUrls
   filterText(txt) {
@@ -231,7 +295,7 @@ export default class Video extends Component {
             </div>
           </div>
           <div className="large-4 medium-6 small-12 columns playlist-container">
-            <h6 ref="message" className="msg"></h6>
+            <h6 ref="message" className="msg" style={{height: 0, display: 'block'}}>{this.state.message}</h6>
             <div ref="playlistSelector" className="playlist-selector">
               <h5 ref="currentPlaylist" className="current-playlist">{this.state.currentPlaylist}</h5>
               <ul className="sub-menu">
