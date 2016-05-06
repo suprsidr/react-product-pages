@@ -4,8 +4,8 @@ import Products from '../components/Products';
 import Search from '../components/Search';
 import Main from '../components/Main';
 import ProdPage from '../components/ProdPage';
-import Video from '../components/Video';
-import { NotFound } from '../components/NotFound';
+import {VideoPage} from '../components/VideoPage';
+import {NotFound} from '../components/NotFound';
 import {Route, IndexRoute} from 'react-router';
 
 export default (
@@ -13,7 +13,7 @@ export default (
     <Route path="/products/:category" component={Products} />
     <Route path="/search/:searchterm" component={Search} />
     <Route path="/product/:id" component={ProdPage} />
-    <Route path="/video" component={Video} />
+    <Route path="/video" component={VideoPage} />
 	  <Route path="*" component={NotFound}/>
     <IndexRoute component={Home} />
   </Route>
