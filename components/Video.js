@@ -67,7 +67,7 @@ export default class Video extends Component {
     e.preventDefault();
     const data = e.target.dataset;
     this.setState({
-      currentPlaylist: data.title
+      currentPlaylist: data.name
     }, () => {
       this.searchContainer.style.display = 'none';
       this.searchBox.value = '';
@@ -293,12 +293,11 @@ export default class Video extends Component {
                 {this.state.playlists.map((item, i) => (
                   <li key={i}>
                     <a
-                      className={item.type}
-                      href={item.name}
+                      className='playlistid'
+                      href={item.snippet.title}
                       data-id={item.id}
-                      data-type={item.type}
-                      data-name={item.name}
-                      onClick={(e) => this.handlePlayListItemClick(e)}>{item.name}
+                      data-name={item.snippet.title}
+                      onClick={(e) => this.handlePlayListItemClick(e)}>{item.snippet.title}
                     </a>
                   </li>
                 ))}
