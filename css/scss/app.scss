@@ -362,5 +362,35 @@ p {
     left: 0;
   }
 }
+// end Orbit
 
+// BloggerFeeds
+.blogger-posts {
+	font-size: .8rem;
+	div {
+		border-top: 1px solid $medium-gray;
+		padding: 3px 2px;
+		min-height: 46px;
+
+		&:first-of-type {
+			border-top: 0 none;
+		}
+	}
+	img {
+		max-width: 40px;
+		float: left;
+		margin-right: 5px;
+		margin-bottom: 0;
+	}
+	p {
+		margin-bottom: 0;
+
+		&:last-of-type {
+			font-size: .6rem;
+			color: $medium-gray;
+		}
+	}
+}
+
+// Video
 @import 'yt';
