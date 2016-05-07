@@ -254,7 +254,7 @@ export default class Video extends Component {
         <div className="row">
           <div className="large-12 medium-12 small-12 columns iframe-container">
             <div className="iframe-padding"></div>
-            {(this.state.currentIframeSrc !== '') && <iframe src={this.state.currentIframeSrc} ref="iframe" frameborder="0" allowfullscreen></iframe>}
+            {(this.state.currentIframeSrc !== '') && <iframe src={this.state.currentIframeSrc} ref="iframe" frameBorder={0} allowFullscreen={true}></iframe>}
           </div>
         </div>
         <div className="row">
