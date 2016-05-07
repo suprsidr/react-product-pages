@@ -159,7 +159,44 @@ export default class Video extends Component {
 			  }
 		  });
   }
-  getSearchItems() {
+  getSearchItems(query, token) {
+	  const data = {
+		  part: 'snippet',
+		  key: this.state.apiKey,
+		  q: query,
+		  channelId: this.state.channelId,
+		  maxResults: this.state.maxResults,
+		  order: 'date', // rating, relevance, title, videoCount and viewCount
+		  pageToken: token || null
+	  };
+	  this.setState({currentQuery: query});
+	  request
+		  .get(this.state.earl + '/search')
+		  .use(jsonp)
+		  .query(data)
+		  .end((err, res) => {
+			  err ? console.log(err) : '';
+			  console.log(res.body);
+			  if(res.body.items && res.body.items.length > 0){
+				  this.setState({
+					  nextArrowDisplay: 'none',
+					  prevArrowDisplay: 'none',
+					  currentThumnailItems: res.body.items.map((item) => {
+						  // search item different than other query results & missing videoId - bad google!
+						  return Object.assign(item, {
+							  snippet: Object.assign(item.snippet, {
+								  resourceId: {
+									  videoId: item.id.videoId
+								  }
+							  }),
+							  contentDetails: {
+								  note: item.snippet.title
+							  }
+						  })
+					  })
+				  });
+			  }
+		  });
   }
   getPlaylists() {
     const data = {
