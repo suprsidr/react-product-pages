@@ -30,6 +30,8 @@ export default class Video extends Component {
       urlParams: '?theme=light&autoplay=1&wmode=opaque&rel=0',
       nextArrowDisplay: 'none',
       prevArrowDisplay: 'none',
+	    prevPageToken: null,
+	    nextPageToken: null,
       message: ''
     };
   }
@@ -96,14 +98,13 @@ export default class Video extends Component {
         this.playlistSelector.style.display = 'none';
         break;
     }
-
   }
   handleThumnailItemClick(e) {
     e.preventDefault();
     const data = e.currentTarget.dataset;
     this.setState({
       currentIframeSrc: `//www.youtube.com/embed/${data.id}${this.state.urlParams}`,
-      currentDescription: this.filterText(data.desc),
+      currentDescription: this.createClickableUrls(data.desc),
       currentTitle: data.title,
       hasMore: data.desc.length > 300 ? 'has-more' : ''
     })
@@ -112,6 +113,14 @@ export default class Video extends Component {
     e.preventDefault();
     this.setState({hasMore: ''});
   }
+	handlePrevArrowClick(e) {
+		e.preventDefault();
+		this.getPlaylistItems(this.state.currentPlaylistId, this.state.prevPageToken);
+	}
+	handleNextArrowClick(e) {
+		e.preventDefault();
+		this.getPlaylistItems(this.state.currentPlaylistId, this.state.nextPageToken);
+	}
   init() {
     if(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
       document.querySelector('html').classList.add('touch');
@@ -175,11 +184,8 @@ export default class Video extends Component {
 		  .query(data)
 		  .end((err, res) => {
 			  err ? console.log(err) : '';
-			  console.log(res.body);
 			  if(res.body.items && res.body.items.length > 0){
 				  this.setState({
-					  nextArrowDisplay: 'none',
-					  prevArrowDisplay: 'none',
 					  currentThumnailItems: res.body.items.map((item) => {
 						  // search item different than other query results & missing videoId - bad google!
 						  return Object.assign(item, {
@@ -193,7 +199,8 @@ export default class Video extends Component {
 							  }
 						  })
 					  })
-				  }, () => (this.state.currentIframeSrc === '') && document.querySelector('.thumbs-list a').click());
+				  }, this.clickFirstThumbnail());
+				  this.handleTokens(res.body);
 			  }
 		  });
   }
@@ -219,8 +226,6 @@ export default class Video extends Component {
           });
           this.setState({
             playlists: res.body.items,
-            nextArrowDisplay: 'none',
-            prevArrowDisplay: 'none',
             currentPlaylistItems: res.body.items,
             currentPlaylist: res.body.items[0].snippet.title
           });
@@ -246,10 +251,9 @@ export default class Video extends Component {
         err ? console.log(err) : '';
         if(res.body.items && res.body.items.length > 0){
           this.setState({
-            nextArrowDisplay: 'none',
-            prevArrowDisplay: 'none',
             currentThumnailItems: res.body.items
-          }, () => (this.state.currentIframeSrc === '') && document.querySelector('.thumbs-list a').click());
+          }, this.clickFirstThumbnail());
+	        this.handleTokens(res.body);
         }
       });
   }
@@ -267,22 +271,38 @@ export default class Video extends Component {
         err ? console.log(err) : '';
         if(res.body.items && res.body.items.length > 0){
           this.setState({
-            nextArrowDisplay: 'none',
-            prevArrowDisplay: 'none',
             currentThumnailItems: res.body.items
-          }, () => (this.state.currentIframeSrc === '') && document.querySelector('.thumbs-list a').click());
+          }, this.clickFirstThumbnail());
+	        this.handleTokens(res.body);
         }
       });
 
   }
+	clickFirstThumbnail() {
+		window.setTimeout(() => {
+			(this.state.currentIframeSrc === '') && document.querySelector('.thumbs-list a').click();
+		}, 0);
+	}
+	handleTokens(data) {
+		if(data.prevPageToken) {
+			this.setState({prevPageToken: data.prevPageToken, prevArrowDisplay: 'block'});
+		} else {
+			this.setState({prevPageToken: null, prevArrowDisplay: 'none'});
+		}
+		if(data.nextPageToken) {
+			this.setState({nextPageToken: data.nextPageToken, nextArrowDisplay: 'block'});
+		} else {
+			this.setState({nextPageToken: null, nextArrowDisplay: 'none'});
+		}
+	}
   displayMsg(txt) {
     this.setState({message: txt}, ()=> this.message.style.height = '20px');
     setTimeout(function(){
       this.setState({message: ''}, ()=> this.message.style.height = '0px');
     }, 4000);
   }
-  // create clickableUrls
-  filterText(txt) {
+  // create clickable urls
+  createClickableUrls(txt) {
     return txt.replace(/((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi, '<a href="$1" target="_blank">$1</a>');
   }
   render() {
@@ -353,7 +373,8 @@ export default class Video extends Component {
         </div>
         <div className="row">
           <div className="large-12 medium-12 small-12 columns thumbs-list-container">
-            <a ref="prevArrow" className="prev-arrow"></a><a ref="nextArrow" className="next-arrow"></a>
+            <a ref="prevArrow" className="prev-arrow" style={{display: this.state.prevArrowDisplay}} onClick={(e) => this.handlePrevArrowClick(e)}></a>
+	          <a ref="nextArrow" className="next-arrow" style={{display: this.state.nextArrowDisplay}} onClick={(e) => this.handleNextArrowClick(e)}></a>
             <div ref="thumbList" className="row small-up-2 medium-up-4 large-up-5 thumbs-list">
               {this.state.currentThumnailItems.map((item, i) => (
                 <div className="column text-center" key={i}>
