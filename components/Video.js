@@ -50,8 +50,8 @@ export default class Video extends Component {
     this.searchContainer = this.refs.searchContainer;
     this.playlistSelector = this.refs.playlistSelector;
     this.message = this.refs.message;
-    this.isTouch = false;
     this.init();
+	  console.log(this.autoPlay);
   }
   handleSearchClick(e) {
     e.preventDefault();
@@ -115,7 +115,6 @@ export default class Video extends Component {
   init() {
     if(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
       document.querySelector('html').classList.add('touch');
-      this.isTouch = true;
     }
     this.setState({...this.props}, () => {
       if(this.state.videoList.length) {
@@ -194,7 +193,7 @@ export default class Video extends Component {
 							  }
 						  })
 					  })
-				  });
+				  }, () => (this.state.currentIframeSrc === '') && document.querySelector('.thumbs-list a').click());
 			  }
 		  });
   }
@@ -250,7 +249,7 @@ export default class Video extends Component {
             nextArrowDisplay: 'none',
             prevArrowDisplay: 'none',
             currentThumnailItems: res.body.items
-          });
+          }, () => (this.state.currentIframeSrc === '') && document.querySelector('.thumbs-list a').click());
         }
       });
   }
@@ -271,7 +270,7 @@ export default class Video extends Component {
             nextArrowDisplay: 'none',
             prevArrowDisplay: 'none',
             currentThumnailItems: res.body.items
-          });
+          }, () => (this.state.currentIframeSrc === '') && document.querySelector('.thumbs-list a').click());
         }
       });
 
