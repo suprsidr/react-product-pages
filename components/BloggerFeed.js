@@ -27,8 +27,8 @@ class BloggerFeed extends Component {
 		return (
 				<div className="blogger-posts">
 					{this.props.title && <h3>{this.props.title}</h3>}
-					{this.state.feedItems.map((item) => (
-						<div>
+					{this.state.feedItems.map((item, i) => (
+						<div key={i}>
 							<p>
 								<a target="_blank" href={item.link.filter((link) => link.rel === 'alternate')[0].href}>
 									{item.media$thumbnail &&
