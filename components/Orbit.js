@@ -100,19 +100,23 @@ class Orbit extends Component {
 						<img className="orbit-image" src={this.props.imgbase + slide1.img} alt={slide1.title} style={{visibility: 'hidden'}}/>
 						{this.state.slides.map((slide) => {
 							return (
-									<li key={slide.index} className={slide.classes} style={slide.style}>
-										<a href={this.props.linkbase + slide.url}>
-											<img className="orbit-image" src={this.props.imgbase + slide.img} alt={slide.title} />
-										</a>
-										<figcaption className="orbit-caption">{slide.title}</figcaption>
-									</li>
+								<li key={slide.index} className={slide.classes} style={slide.style}>
+									<a href={slide.url} target={slide.target}>
+										<img className="orbit-image" src={this.props.imgbase + slide.img} alt={slide.title} />
+									</a>
+									<figcaption className="orbit-caption">{slide.title}</figcaption>
+								</li>
 							)
 						})}
 					</ul>
 					<nav className="orbit-bullets">
 						{this.state.slides.map((slide) => {
 							return (
-									<button className={slide.active ? 'is-active' : ''} key={slide.index} data-slide={slide.index} onClick={(e) => this.handleBulletClick(e)}><span className="show-for-sr">{slide.title}</span></button>
+								<button className={slide.active ? 'is-active' : ''} key={slide.index} data-slide={slide.index} onClick={(e) => this.handleBulletClick(e)}>
+									<span className="show-for-sr">
+										{slide.title}
+									</span>
+								</button>
 							)
 						})}
 					</nav>
@@ -121,4 +125,11 @@ class Orbit extends Component {
 	}
 }
 
+Orbit.propTypes = {
+	slides: React.PropTypes.array.isRequired,
+	imageBase: React.PropTypes.string
+};
+Orbit.defaultProps = {
+	imageBase: ''
+};
 export default Orbit;
