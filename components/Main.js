@@ -77,17 +77,17 @@ export default class Main extends Component {
 					this.upsert(res.body);
 				});
 	}
-  upsert(data) {
-    // insert data into db as one big dump - Always use upsert for both inserts and modifies
-    this.db.products.upsert(data, () => {
-      console.log('data upserted');
-      this.setState({productsLoaded: true});
-	    localStorage.setItem('productData', JSON.stringify({
-		    timeStamp: Math.round(new Date().getTime() / 1000),
-		    products: data
-	    }));
-    });
-  }
+	upsert(data) {
+		// insert data into db as one big dump - Always use upsert for both inserts and modifies
+		this.db.products.upsert(data, () => {
+			console.log('data upserted');
+			this.setState({productsLoaded: true});
+			this.localStorageSupported && localStorage.setItem('productData', JSON.stringify({
+				timeStamp: Math.round(new Date().getTime() / 1000),
+				products: data
+			}));
+		});
+	}
   render() {
     return (
       <div>
