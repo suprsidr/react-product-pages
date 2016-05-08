@@ -35,6 +35,9 @@ export default class Video extends Component {
       message: ''
     };
   }
+
+  componentWillMount() {
+  }
   componentDidMount() {
     this.element = this.refs.videoContainer;
     this.thumbList = this.refs.thumbList;
@@ -50,6 +53,7 @@ export default class Video extends Component {
     this.playlistSelector = this.refs.playlistSelector;
     this.message = this.refs.message;
     this.init();
+	  console.log(this.autoPlay);
   }
   handleSearchClick(e) {
     e.preventDefault();
@@ -149,12 +153,13 @@ export default class Video extends Component {
 		  .query(data)
 		  .end((err, res) => {
 			  err ? console.log(err) : '';
+        console.log('getID: ', res);
 			  if(res.body.items && res.body.items.length > 0 && res.body.items[0].id){
 				  this.setState({
 					  channelId: res.body.items[0].id,
 					  uploadsPlaylistId: res.body.items[0].contentDetails.relatedPlaylists.uploads
 				  }, () => {
-           //console.log('state updated: ', this.state);
+            console.log('state updated: ', this.state);
             this.state.uploadsPlaylistId && this.getPlaylistItems(this.state.uploadsPlaylistId);
 					  this.playlistSelector.style.display = 'block';
 					  this.getPlaylists();
@@ -300,6 +305,9 @@ export default class Video extends Component {
   createClickableUrls(txt) {
     return txt.replace(/((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi, '<a href="$1" target="_blank">$1</a>');
   }
+	createMarkup(html) {
+		return {__html: html};
+	}
   render() {
     return ( <section ref="videoContainer" className="white-section yt-plugin">
         <div className="row">
@@ -312,7 +320,8 @@ export default class Video extends Component {
           <div ref="descContainer" className="large-12 medium-12 small-12 columns desc-container under">
             <h4>{this.state.currentTitle}</h4>
             <p className={this.state.hasMore}>
-              {this.state.currentDescription}{(this.state.hasMore !== '') && <a href="more" className="more" onClick={(e) => this.handleMoreClick(e)} >Read More...</a>}
+              <span dangerouslySetInnerHTML={this.createMarkup(this.state.currentDescription)}></span>
+	            {(this.state.hasMore !== '') && <a href="more" className="more" onClick={(e) => this.handleMoreClick(e)} >Read More...</a>}
             </p>
           </div>
         </div>
