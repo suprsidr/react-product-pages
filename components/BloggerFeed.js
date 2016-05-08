@@ -19,7 +19,7 @@ class BloggerFeed extends Component {
 				.query({alt: 'json', 'max-results': this.props.maxResults})
 				.end((err, res) => {
 					err ? console.log(err) : '';
-					console.log('feed data: ', res.body);
+					//console.log('feed data: ', res.body);
 					this.setState({feedItems: res.body.feed.entry})
 				});
 	}
