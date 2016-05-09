@@ -89,7 +89,7 @@ export default class ProdTabs extends Component {
       return prev;
     }, []).sort((a, b) => a.ID > b.ID);
 
-	  if(this.props.product.LongDesc || this.props.product.PartsList || manuals.length > 0) {
+	  if(this.props.product.LongDesc || specs.length > 0 || this.props.product.PartsList || manuals.length > 0) {
 		  return (
 				  <div className="row">
 					  <div className="small-12 columns">
