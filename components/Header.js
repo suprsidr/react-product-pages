@@ -12,12 +12,11 @@ import {
 class Header extends Component {
   constructor(props, context) {
     super(props, context);
-    this.noContext = typeof this.context.router === 'undefined';
   }
 	handleSubmit(e) {
 		e.preventDefault();
 		const val = this.refs.search.value || '';
-    if(this.noContext) {
+    if(this.context.inApp === undefined) {
       location.href = `/search/${val}`;
     } else {
       browserHistory.push(`/search/${val}`);
@@ -29,16 +28,19 @@ class Header extends Component {
 			this.handleSubmit(e);
 		}
 	}
+  static contextTypes = {
+    inApp: React.PropTypes.bool
+  };
   render() {
     return (
 	    <ResponsiveNavigation className="navbar">
 		    <TopBarTitle>POC Brand Site</TopBarTitle>
 		    <TopBarLeft>
 			    <Menu>
-				    <MenuItem>{this.noContext && <a href="/">Home</a> || <IndexLink to="/">Home</IndexLink>}</MenuItem>
-				    <MenuItem>{this.noContext && <a href="/products/multirotor">MultiRotor</a> || <Link to="/products/multirotor" activeStyle={{ color: '#00d8ff' }}>MultiRotor</Link>}</MenuItem>
-				    <MenuItem>{this.noContext && <a href="/products/helicopters">Helicopters</a> || <Link to="/products/helicopters" activeStyle={{ color: '#00d8ff' }}>Helicopters</Link>}</MenuItem>
-            <MenuItem>{this.noContext && <a href="/video">Videos</a> || <Link to="/video" activeStyle={{ color: '#00d8ff' }}>Videos</Link>}</MenuItem>
+				    <MenuItem>{(this.context.inApp === undefined) ? <a href="/">Home</a> : <IndexLink to="/">Home</IndexLink>}</MenuItem>
+				    <MenuItem>{(this.context.inApp === undefined) ? <a href="/products/multirotor">MultiRotor</a> : <Link to="/products/multirotor" activeStyle={{ color: '#00d8ff' }}>MultiRotor</Link>}</MenuItem>
+				    <MenuItem>{(this.context.inApp === undefined) ? <a href="/products/helicopters">Helicopters</a> : <Link to="/products/helicopters" activeStyle={{ color: '#00d8ff' }}>Helicopters</Link>}</MenuItem>
+            <MenuItem>{(this.context.inApp === undefined) ? <a href="/video">Videos</a> : <Link to="/video" activeStyle={{ color: '#00d8ff' }}>Videos</Link>}</MenuItem>
             <MenuItem><a href="/storelocator">Storelocator</a></MenuItem>
 			    </Menu>
 		    </TopBarLeft>

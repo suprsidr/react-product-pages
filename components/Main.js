@@ -88,6 +88,15 @@ export default class Main extends Component {
 			}));
 		});
 	}
+  static childContextTypes = {
+    inApp: React.PropTypes.bool
+  };
+
+  getChildContext() {
+    return {
+      inApp: 'true'
+    };
+  }
   render() {
     return (
       <div>
