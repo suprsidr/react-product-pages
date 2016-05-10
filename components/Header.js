@@ -10,15 +10,18 @@ import {
 } from 'react-foundation';
 
 class Header extends Component {
-	/*toggleMenu(e) {
-		e.preventDefault();
-		const menu = document.getElementById('headerMenu');
-		menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
-	}*/
+  constructor(props, context) {
+    super(props, context);
+    this.noContext = typeof this.context.router === 'undefined';
+  }
 	handleSubmit(e) {
 		e.preventDefault();
 		const val = this.refs.search.value || '';
-		browserHistory.push(`/search/${val}`);
+    if(this.noContext) {
+      location.href = `/search/${val}`;
+    } else {
+      browserHistory.push(`/search/${val}`);
+    }
 	}
 	handleKeyup(e) {
 		const code = (typeof e.which === 'number') ? e.which : e.keyCode;
@@ -32,10 +35,11 @@ class Header extends Component {
 		    <TopBarTitle>POC Brand Site</TopBarTitle>
 		    <TopBarLeft>
 			    <Menu>
-				    <MenuItem><IndexLink to="/">Home</IndexLink></MenuItem>
-				    <MenuItem><Link to="/products/multirotor" activeStyle={{ color: '#00d8ff' }}>MultiRotor</Link></MenuItem>
-				    <MenuItem><Link to="/products/helicopters" activeStyle={{ color: '#00d8ff' }}>Helicopters</Link></MenuItem>
-            <MenuItem><Link to="/video" activeStyle={{ color: '#00d8ff' }}>Videos</Link></MenuItem>
+				    <MenuItem>{this.noContext && <a href="/">Home</a> || <IndexLink to="/">Home</IndexLink>}</MenuItem>
+				    <MenuItem>{this.noContext && <a href="/products/multirotor">MultiRotor</a> || <Link to="/products/multirotor" activeStyle={{ color: '#00d8ff' }}>MultiRotor</Link>}</MenuItem>
+				    <MenuItem>{this.noContext && <a href="/products/helicopters">Helicopters</a> || <Link to="/products/helicopters" activeStyle={{ color: '#00d8ff' }}>Helicopters</Link>}</MenuItem>
+            <MenuItem>{this.noContext && <a href="/video">Videos</a> || <Link to="/video" activeStyle={{ color: '#00d8ff' }}>Videos</Link>}</MenuItem>
+            <MenuItem><a href="/storelocator">Storelocator</a></MenuItem>
 			    </Menu>
 		    </TopBarLeft>
 		    <TopBarRight>
