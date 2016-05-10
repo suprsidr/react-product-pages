@@ -20,6 +20,10 @@ app.get('/static/:id', function(req, res) {
   });
 });
 
+app.get('/storelocator', function(req,res) {
+  res.sendFile(path.resolve(__dirname,'../StoreLocator.html'));
+});
+
 app.get(/^\/(\*|products\/*|product\/*|search\/*|video)/, function(req,res) {
   res.sendFile(path.resolve(__dirname,'../index.html'));
 });
