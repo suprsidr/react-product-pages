@@ -37,3 +37,5 @@ node_modules
 dist/bundle.js
 
 content
+
+build
