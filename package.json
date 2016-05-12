@@ -11,7 +11,7 @@
     "pm2": "npm run task && pm2 restart 1",
     "menu": "webpack --config webpack.menu.config.js",
     "task": "webpack",
-    "postcss": "postcss -u autoprefixer css/app.css -d css/post"
+    "postcss": "postcss -u autoprefixer -u postcss-clean css/app.css -d css/post"
   },
   "repository": {
     "type": "git",
