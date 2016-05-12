@@ -13,6 +13,9 @@ class Header extends Component {
   constructor(props, context) {
     super(props, context);
   }
+  componentDidMount() {
+    document.querySelector('.title-bar-title').innerHTML = document.querySelector('.top-bar-title').innerHTML;
+  }
 	handleSubmit(e) {
 		e.preventDefault();
 		const val = this.refs.search.value || '';
