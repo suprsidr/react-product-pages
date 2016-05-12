@@ -100,13 +100,30 @@ p {
 	[type="search"] {
 		margin-right: 0;
 	}
-
+  @include breakpoint(small only) {
+    .top-bar-title {
+      display: none;
+    }
+  }
 	.top-bar-title {
 		font-size: 1.6rem;
 	}
+
+  .top-bar-left {
+    @include breakpoint(small only) {
+      .menu > li {
+        display: block;
+      }
+    }
+  }
 }
 .top-bar, .top-bar ul, .title-bar {
   background-color: #222;
+}
+.title-bar {
+  .menu-icon {
+    float: right;
+  }
 }
 .react-link {
   color: #222;
