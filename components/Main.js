@@ -58,6 +58,7 @@ export default class Main extends Component {
 					ProdID: 1,
 					BrandName: 1,
 					Name: 1,
+					DemandRank: 1,
 					Desc: 1,
 					LongDesc: 1,
 					Price: 1,
