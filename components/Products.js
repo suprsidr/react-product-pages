@@ -1,13 +1,21 @@
 import React, {Component} from 'react';
 import {Product} from './Product';
 
-
 export default class Products extends Component {
   constructor (props) {
     super(props);
     this.state = {
       products: []
     };
+	  this.fields = {
+		  ProdID: 1,
+		  BrandName: 1,
+		  Name: 1,
+		  Price: 1,
+		  Attributes: 1,
+		  Categories: 1,
+		  _id: -1
+	  };
   }
   componentWillMount() {
     //this.setState({category: this.props.params.category.toLowerCase()});
@@ -42,24 +50,35 @@ export default class Products extends Component {
     }, {
       limit: 0,
       sort: {
-        ProdID: 1
+	      DemandRank: 1
       },
-      fields: {
-        ProdID: 1,
-        BrandName: 1,
-        Name: 1,
-        Price: 1,
-        Attributes: 1,
-        Categories: 1,
-        _id: -1
-      }
+      fields: this.fields
     });
   }
   query(q, p) {
     this.props.db.products.find(q, p).fetch((data) => {
-      this.setState({products: data});
+      this.setState({products: data}, () => this.getFilters());
     });
   }
+	getFilters() {
+		const filters = this.state.products.reduce((obj, product) => {
+			return product.Attributes.reduce((prev, next) => {
+				if(next.ID.includes('ZZ_')) return;
+				if(next.ID.includes('facet_')) {
+					let key = next.ID.replace(/(^spec_|facet_)/gi, '');
+					try{
+						prev[key].val.push(next.Name);
+					} catch(e) {
+						prev[key] = {};
+						prev[key].val = [];
+						prev[key].val.push(next.Name);
+					}
+				}
+				return prev;
+			}, obj);
+		}, {});
+		console.log(filters);
+	}
   render() {
     return (
 	    <div className="row">
