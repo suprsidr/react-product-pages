@@ -18,7 +18,7 @@ export default class ProdPriceBox extends Component {
               <ProdRating rating={this.props.product.RatingAverage} count={this.props.product.RatingCount} prodid={this.props.product.ProdID} />
             </div>
             <div className="action">
-              <a className="button secondary" href="/retailer">Find A Retailer</a>&nbsp;<a className="button" href={`http://www.horizonhobby.com/webapp/wcs/stores/servlet/OrderItemAdd?catalogId=10051&langId=-1&storeId=10151&partNumber_1=${this.props.product.ProdID}&quantity_1=1&URL=AjaxOrderItemDisplayView`}>Buy Now</a>
+              <a className="button secondary" href="/storelocator">Find A Retailer</a>&nbsp;<a className="button" href={`http://www.horizonhobby.com/webapp/wcs/stores/servlet/OrderItemAdd?catalogId=10051&langId=-1&storeId=10151&partNumber_1=${this.props.product.ProdID}&quantity_1=1&URL=AjaxOrderItemDisplayView`}>Buy Now</a>
             </div>
           </div>
         </div>
