@@ -29,6 +29,8 @@ export default class Products extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.makeQuery(nextProps.params.category.toLowerCase());
+	  // we need to clear any stored filters here
+	  this.selectedFilters = {};
   }
 	handleFilterChange(e) {
 		e.preventDefault();
