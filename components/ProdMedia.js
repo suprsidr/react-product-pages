@@ -19,7 +19,7 @@ export default class ProdMedia extends Component {
 	}
 	getMedia(idx = 1) {
 		let img = document.createElement('img');
-		let src = `http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a${idx}?wid=100&hei=100`;
+		let src = `http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a${idx}?wid=120&hei=120`;
 		img.addEventListener('load', (e) => {
 			let media = this.state.mediaArray.slice();
 			media.push({src: src, idx: idx});
@@ -40,11 +40,11 @@ export default class ProdMedia extends Component {
 		}, false);
 		img.src = src;
 	}
-	calculateStyles() {
+	/*calculateStyles() {
 		return {
 			width: this.state.mediaArray.length * 106.6666666666667
 		}
-	}
+	}*/
 	getThumbStyle() {
 		return {
 			width: parseInt(window.getComputedStyle(document.querySelector('.thumbSlider')).width.replace('px', '')) / 6
@@ -53,7 +53,7 @@ export default class ProdMedia extends Component {
 	render() {
 		return (
 				<div className="thumbSlider">
-					<div style={this.calculateStyles()}>
+					<div style={{width: '3000%'}}>
 						{(this.state.mediaArray.length > 0) && this.state.mediaArray.map((item, i) => {
 							return (
 								<a
