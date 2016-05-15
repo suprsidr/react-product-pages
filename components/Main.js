@@ -95,7 +95,7 @@ export default class Main extends Component {
 
   getChildContext() {
     return {
-      inApp: 'true'
+      inApp: true
     };
   }
   render() {
