@@ -55,7 +55,7 @@ export default class Search extends Component {
 					  }
 				  },
 				  {
-					  LongDesc: {
+					  Name: {
 						  $regex: regex
 					  }
 				  },
