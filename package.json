@@ -2,7 +2,7 @@
   "name": "ProdPages",
   "version": "1.0.0",
   "description": "POC for brandsite product pages using react + micro services",
-  "main": "bundle.js",
+  "main": "gulpfile.js",
   "scripts": {
     "prestart": "npm run build",
     "start": "node server/server.js",
@@ -10,9 +10,12 @@
     "lint": "eslint components",
     "pm2": "npm run task && pm2 restart 1",
     "menu": "webpack --config webpack.menu.config.js",
-    "build": "webpack --config webpack.build.config.js",
+    "build": "webpack && gulp",
+    "build-prod": "webpack && gulp --production",
     "task": "webpack",
-    "test": "mocha -w ./test/**/*.spec.js --compilers js:babel-core/register"
+    "test": "mocha -w ./test/**/*.spec.js --compilers js:babel-core/register",
+    "gulp": "gulp",
+    "gulp-prod": "gulp --production"
   },
   "repository": {
     "type": "git",
@@ -34,22 +37,29 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^6.3.6",
     "babel-eslint": "^6.0.3",
-    "css-loader": "^0.23.1",
     "eslint": "^2.8.0",
     "estraverse-fb": "^1.3.1",
     "expect": "^1.20.1",
     "expect-jsx": "^2.5.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "mocha": "^2.4.5",
-    "node-sass": "^3.7.0",
-    "postcss-clean": "^1.0.2",
-    "postcss-loader": "^0.9.1",
-    "react-addons-test-utils": "^15.0.2",
-    "sass-loader": "^3.2.0",
-    "style-loader": "^0.13.1",
-    "watchify": "^3.2.2"
+    "watchify": "^3.2.2",
+    "browser-sync": "^2.10.0",
+    "gulp": "gulpjs/gulp#4.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-cli": "gulpjs/gulp-cli#4.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-cssnano": "^2.1.0",
+    "gulp-extname": "^0.2.0",
+    "gulp-if": "^2.0.0",
+    "gulp-imagemin": "^2.2.1",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-sass": "^2.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.2.0",
+    "yargs": "^3.8.0"
   },
   "dependencies": {
     "babel-core": "^6.0.20",
