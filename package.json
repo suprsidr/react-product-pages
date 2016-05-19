@@ -4,14 +4,14 @@
   "description": "POC for brandsite product pages using react + micro services",
   "main": "bundle.js",
   "scripts": {
-    "prestart": "npm run task",
+    "prestart": "npm run build",
     "start": "node server/server.js",
     "start-dev": "node server/dev-server.js",
     "lint": "eslint components",
     "pm2": "npm run task && pm2 restart 1",
     "menu": "webpack --config webpack.menu.config.js",
+    "build": "webpack --config webpack.build.config.js",
     "task": "webpack",
-    "postcss": "postcss -u autoprefixer -u postcss-clean css/app.css -d css/post",
     "test": "mocha -w ./test/**/*.spec.js --compilers js:babel-core/register"
   },
   "repository": {
@@ -34,13 +34,21 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^6.3.6",
     "babel-eslint": "^6.0.3",
+    "css-loader": "^0.23.1",
     "eslint": "^2.8.0",
     "estraverse-fb": "^1.3.1",
     "expect": "^1.20.1",
     "expect-jsx": "^2.5.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "mocha": "^2.4.5",
+    "node-sass": "^3.7.0",
+    "postcss-clean": "^1.0.2",
+    "postcss-loader": "^0.9.1",
     "react-addons-test-utils": "^15.0.2",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
     "watchify": "^3.2.2"
   },
   "dependencies": {
