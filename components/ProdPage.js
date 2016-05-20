@@ -50,8 +50,13 @@ export default class ProdPage extends Component {
   }
 	fetchData(id, cb) {
 		const q = JSON.stringify({
-					Displayable: 1,
-					Buyable: 1,
+        Displayable: 1,
+        Buyable: {
+          $in: [0,1]
+        },
+        ProductStatus: {
+          $in: [1,2]
+        },
 					ProdID: id
 				}),
 				s = JSON.stringify({
