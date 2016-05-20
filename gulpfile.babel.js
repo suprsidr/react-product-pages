@@ -4,6 +4,7 @@ import gulp     from 'gulp';
 import yaml     from 'js-yaml';
 import yargs    from 'yargs';
 import fs       from 'fs';
+import childProcess from 'child_process';
 
 // Load all Gulp plugins into one variable
 const $ = plugins();
@@ -23,7 +24,18 @@ gulp.task('build', sass);
 
 // Build the site, run the server, and watch for file changes
 gulp.task('default',
-  gulp.series(sass, watch));
+  gulp.series(sass,
+    gulp.parallel(watch, () => {
+      childProcess.spawn('node', ['./server/server'], {
+        stdio: 'inherit'
+      })
+        .on('close', function () {
+          // User closed the app. Kill the host process.
+          process.exit();
+        });
+    })
+  )
+);
 
 // Compile Sass into CSS
 // In production, the CSS is compressed
