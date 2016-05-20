@@ -6,20 +6,26 @@ export default class Search extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      products: []
+      products: [],
+      showMessage: false
     };
   }
   componentWillMount() {
     //this.setState({category: this.props.params.category.toLowerCase()});
   }
   componentDidMount() {
+    this.status = [1];
     const searchTerm = this.props.params.searchterm || '';
     this.makeQuery(searchTerm);
   }
   componentWillReceiveProps(nextProps) {
-	  this.refs.sorrymsg.style.display = 'none';
+    this.setState({showMessage: false});
     const searchTerm = nextProps.params.searchterm || '';
     this.makeQuery(searchTerm);
+  }
+  handleDiscChange(e) {
+    e.preventDefault();
+    this.status = e.target.value;
   }
   makeQuery(searchTerm) {
 	  let q = {
@@ -29,7 +35,10 @@ export default class Search extends Component {
 					  $regex: /[A-Z]+_(RTF|BNF)$/
 				  }
 			  }
-		  }
+		  },
+      ProductStatus: {
+        $in: this.status
+      }
 	  };
 	  if(searchTerm !== '') {
 		  let regex = new RegExp(searchTerm, 'gi');
@@ -86,7 +95,7 @@ export default class Search extends Component {
   query(q, p) {
     this.props.db.products.find(q, p).fetch((data) => {
 	    if(data.length < 1) {
-		    this.refs.sorrymsg.style.display = 'block';
+        this.setState({showMessage: true});
 	    }
       this.setState({products: data});
     });
@@ -95,11 +104,31 @@ export default class Search extends Component {
     return (
 		    <div className="row">
 			    <div className="small-12 columns">
-				    <h3>Search Results:</h3>
-				    <p ref="sorrymsg" style={{display: 'none'}}>Sorry, no results for {this.props.params.searchterm}.</p>
-				    <div className="row small-up-2 medium-up-3 large-up-4">
-					    {this.state.products.map((product) => <Product key={product.ProdID} product={product} />)}
-				    </div>
+            <div className="row">
+              <div className="small-12 columns">
+                <h3>Search Results:</h3>
+              </div>
+            </div>
+            {this.state.showMessage && <div className="row">
+              <div className="small-5 columns">
+                <p>Sorry, no results for {this.props.params.searchterm}.</p>
+              </div>
+              <div className="small-7 columns">
+                <label>Discontinued</label>:
+                <select onchange={(e) => this.handleDiscChange(e)} class="no-custom">
+                  <option value={[1]} selected>Exclude Discontinued</option>
+                  <option value={[1, 2]}>Include Discontinued</option>
+                  <option value={[2]}>Discontinued Only</option>
+                </select>
+              </div>
+            </div>}
+            <div className="row">
+              <div className="small-12 columns">
+                <div className="row small-up-2 medium-up-3 large-up-4">
+                  {this.state.products.map((product) => <Product key={product.ProdID} product={product} />)}
+                </div>
+              </div>
+            </div>
 			    </div>
 		    </div>
     )
