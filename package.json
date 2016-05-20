@@ -4,18 +4,16 @@
   "description": "POC for brandsite product pages using react + micro services",
   "main": "gulpfile.js",
   "scripts": {
-    "prestart": "npm run build",
-    "start": "node server/server.js",
+    "prestart": "npm run task",
+    "start": "gulp",
     "start-dev": "node server/dev-server.js",
     "lint": "eslint components",
     "pm2": "npm run task && pm2 restart 1",
     "menu": "webpack --config webpack.menu.config.js",
-    "build": "webpack && gulp",
-    "build-prod": "webpack && gulp --production",
+    "build": "webpack && gulp --production",
     "task": "webpack",
     "test": "mocha -w ./test/**/*.spec.js --compilers js:babel-core/register",
-    "gulp": "gulp",
-    "gulp-prod": "gulp --production"
+    "gulp": "gulp"
   },
   "repository": {
     "type": "git",
