@@ -10,7 +10,7 @@
     "lint": "eslint components",
     "pm2": "npm run task && pm2 restart 1",
     "menu": "webpack --config webpack.menu.config.js",
-    "build": "webpack && gulp --production",
+    "build": "webpack && gulp build --production",
     "task": "webpack",
     "test": "mocha -w ./test/**/*.spec.js --compilers js:babel-core/register",
     "gulp": "gulp"
