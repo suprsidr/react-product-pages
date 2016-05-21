@@ -37,10 +37,9 @@ class Header extends Component {
   render() {
     return (
 	    <ResponsiveNavigation className="navbar">
-		    <TopBarTitle>POC Brand Site</TopBarTitle>
+		    <TopBarTitle>{(this.context.inApp === undefined) ? <a href="/">POC Brand Site</a> : <IndexLink to="/">POC Brand Site</IndexLink>}</TopBarTitle>
 		    <TopBarLeft>
 			    <Menu>
-				    <MenuItem>{(this.context.inApp === undefined) ? <a href="/">Home</a> : <IndexLink to="/">Home</IndexLink>}</MenuItem>
 				    <MenuItem>{(this.context.inApp === undefined) ? <a href="/products/multirotor">MultiRotor</a> : <Link to="/products/multirotor" activeStyle={{ color: '#00d8ff' }}>MultiRotor</Link>}</MenuItem>
 				    <MenuItem>{(this.context.inApp === undefined) ? <a href="/products/helicopters">Helicopters</a> : <Link to="/products/helicopters" activeStyle={{ color: '#00d8ff' }}>Helicopters</Link>}</MenuItem>
             <MenuItem>{(this.context.inApp === undefined) ? <a href="/video">Videos</a> : <Link to="/video" activeStyle={{ color: '#00d8ff' }}>Videos</Link>}</MenuItem>
