@@ -41,3 +41,9 @@ export const fetchData = (query, cb) => {
 				}
 			});
 };
+
+export const upsert = (db, data) => {
+	db.products.upsert(data, () => {
+		console.log('data upserted');
+	});
+}
