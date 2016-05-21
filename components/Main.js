@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import request from 'superagent';
-import jsonp from 'superagent-jsonp';
 import minimongo from 'minimongo';
 import Header from './Header';
 import Footer from './Footer';
+import {fetchData} from '../config/utils';
 
 export default class Main extends Component {
   constructor (props) {
@@ -26,7 +25,18 @@ export default class Main extends Component {
 	  let data = this.localStorageSupported && JSON.parse(localStorage.getItem('productData')) || null;
 	  const now = Math.round(new Date().getTime() / 1000);
 	  if(!data || (now - data.timeStamp) >= 86400) {
-		  this.fetchData();
+		  fetchData({
+			  Displayable: 1,
+			  Buyable: 1,
+			  ProductStatus: 1,
+			  BrandID: 'BLH'
+		  }, (err, data) => {
+			  if(err) {
+				  console.log(err);
+			  } else {
+				  this.upsert(data);
+			  }
+		  });
 	  } else {
 		  this.upsert(data.products);
 	  }
@@ -42,41 +52,6 @@ export default class Main extends Component {
 		catch(e) {
 			return false;
 		}
-	}
-	fetchData() {
-		console.log('getting fresh data');
-		const q = JSON.stringify({
-					Displayable: 1,
-					Buyable: 1,
-					BrandID: 'BLH'
-				}),
-				s = JSON.stringify({
-					ProdID: 1
-				}),
-				f = JSON.stringify({
-					_id: 0,
-					ProdID: 1,
-					BrandName: 1,
-					Name: 1,
-					DemandRank: 1,
-					Desc: 1,
-					LongDesc: 1,
-					Price: 1,
-					ListPrice: 1,
-					PartsList: 1,
-					RatingAverage: 1,
-					RatingCount: 1,
-					Attributes: 1,
-					Categories: 1
-				});
-		request
-				.get(`http://159.203.116.76/search/${q}/0/${s}/${f}`)
-				.use(jsonp)
-				.end((err, res) => {
-					err ? console.log(err) : '';
-					//console.log(res.body);
-					this.upsert(res.body);
-				});
 	}
 	upsert(data) {
 		// insert data into db as one big dump - Always use upsert for both inserts and modifies
