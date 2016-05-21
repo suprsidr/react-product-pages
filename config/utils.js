@@ -1,5 +1,6 @@
 import request from 'superagent';
 import jsonp from 'superagent-jsonp';
+import {fetchUrl} from './globals';
 
 /**
  * fetch data from the server
@@ -30,7 +31,7 @@ export const fetchData = (query, cb) => {
 					Categories: 1
 				});
 	request
-			.get(`http://159.203.116.76/search/${q}/0/${s}/${f}`)
+			.get(`${fetchUrl}/search/${q}/0/${s}/${f}`)
 			.use(jsonp)
 			.end((err, res) => {
 				if (err) {
