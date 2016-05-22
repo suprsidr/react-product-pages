@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Product} from './Product';
+import {fetchData, upsert} from '../config/utils';
 
 
 export default class Search extends Component {
@@ -7,27 +8,30 @@ export default class Search extends Component {
     super(props);
     this.state = {
       products: [],
-      showMessage: false
+      showMessage: false,
+	    showMessageLink: false,
+	    status: 1,
+	    searchTerm: ''
     };
   }
-  componentWillMount() {
-    //this.setState({category: this.props.params.category.toLowerCase()});
-  }
   componentDidMount() {
-    this.status = [1];
-    const searchTerm = this.props.params.searchterm || '';
-    this.makeQuery(searchTerm);
+	  this.setState({searchTerm: this.props.params.searchTerm || ''}, () => {
+		  this.makeQuery(this.state.searchTerm);
+  });
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({showMessage: false});
-    const searchTerm = nextProps.params.searchterm || '';
-    this.makeQuery(searchTerm);
+	  this.setState({searchTerm: nextProps.params.searchTerm || '', products: [], showMessage: false}, () => {
+		  this.makeQuery(this.state.searchTerm);
+	  });
   }
-  handleDiscChange(e) {
+	handleDiscClick(e) {
     e.preventDefault();
-    this.status = e.target.value;
+		this.setState({status: 2, showMessage: false}, () => {
+			this.makeQuery(this.state.searchTerm)
+		});
   }
   makeQuery(searchTerm) {
+	  console.log(searchTerm);
 	  let q = {
 		  Categories: {
 			  $elemMatch: {
@@ -36,46 +40,12 @@ export default class Search extends Component {
 				  }
 			  }
 		  },
-      ProductStatus: {
-        $in: this.status
-      }
+      ProductStatus: this.state.status
 	  };
 	  if(searchTerm !== '') {
-		  let regex = new RegExp(searchTerm, 'gi');
-		  q = {
-			  $or: [
-				  {
-					  Categories: {
-						  $elemMatch: {
-							  Name: {
-								  $regex: regex
-							  }
-						  }
-					  }
-				  },
-				  {
-					  ProdID: {
-						  $regex: regex
-					  }
-				  },
-				  {
-					  Desc: {
-						  $regex: regex
-					  }
-				  },
-				  {
-					  Name: {
-						  $regex: regex
-					  }
-				  },
-				  {
-					  Keywords: {
-						  $regex: regex
-					  }
-				  }
-			  ]
-		  };
+		  q = this.getQuery(new RegExp(searchTerm, 'gi'));
 	  }
+	  console.log(q);
     this.query(q, {
       limit: 0,
       sort: {
@@ -92,12 +62,72 @@ export default class Search extends Component {
       }
     });
   }
+
+	/**
+	 * We have to use two different Regexp. One for miniMongo and one for remote queries
+	 * local: new RegExp(searchTerm, 'gi')
+	 * remote: we send an array [searchTerm, modifiers] eg. [this.searchTerm, 'gi']
+	 * remote server translates the array to: new RegExp(array[0][, array[1]])
+	 * @param regex
+	 * @returns {Object} query paramaters
+	 */
+	getQuery(regex) {
+		return  {
+			$or: [
+				{
+					Categories: {
+						$elemMatch: {
+							Name: {
+								$regex: regex
+							}
+						}
+					}
+				},
+				{
+					ProdID: {
+						$regex: regex
+					}
+				},
+				{
+					Desc: {
+						$regex: regex
+					}
+				},
+				{
+					Name: {
+						$regex: regex
+					}
+				},
+				{
+					Keywords: {
+						$regex: regex
+					}
+				}
+			],
+			ProductStatus: this.state.status
+		};
+	}
   query(q, p) {
     this.props.db.products.find(q, p).fetch((data) => {
-	    if(data.length < 1) {
-        this.setState({showMessage: true});
+	    if(data.length === 0 && this.state.status === 1) {
+        this.setState({showMessage: true, showMessageLink: true});
+	    } else if(data.length === 0 && this.state.status === 2) {
+		    fetchData(this.getQuery([this.state.searchTerm, 'gi']), (err, res) => {
+			    if(err) {
+				    console.log('Fetch data error: ', err, 'Search::query');
+				    this.setState({showMessage: true, showMessageLink: false});
+			    } else {
+				    if(res.length === 0) {
+					    this.setState({showMessage: true, showMessageLink: false});
+				    } else {
+					    upsert(this.props.db, res);
+					    this.setState({products: res, status: 1, showMessage: false});
+				    }
+			    }
+		    });
+	    } else {
+		    this.setState({products: data});
 	    }
-      this.setState({products: data});
     });
   }
   render() {
@@ -110,16 +140,8 @@ export default class Search extends Component {
               </div>
             </div>
             {this.state.showMessage && <div className="row">
-              <div className="small-5 columns">
-                <p>Sorry, no results for {this.props.params.searchterm}.</p>
-              </div>
-              <div className="small-7 columns">
-                <label>Discontinued</label>:
-                <select onchange={(e) => this.handleDiscChange(e)} class="no-custom">
-                  <option value={[1]} selected>Exclude Discontinued</option>
-                  <option value={[1, 2]}>Include Discontinued</option>
-                  <option value={[2]}>Discontinued Only</option>
-                </select>
+              <div className="small-12 columns">
+                <p>{`Sorry, no results for "${this.state.searchTerm}".`} {this.state.showMessageLink && <a href={this.state.searchTerm} onClick={(e) => this.handleDiscClick(e)}>{`Try searching in Discontinued items.`}</a>}</p>
               </div>
             </div>}
             <div className="row">
