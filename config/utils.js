@@ -37,7 +37,8 @@ export const fetchData = (query, cb) => {
 				if (err) {
 					cb(err);
 				} else {
-					cb(null, res.body);
+					const data = res.body.error ? [] : res.body;
+					cb(null, data);
 				}
 			});
 };
