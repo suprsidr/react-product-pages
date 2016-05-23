@@ -13,7 +13,7 @@ export class Product extends Component {
   render() {
     return (
       <div className="column text-center">
-        <p className="prodThumb">
+        <p className={this.props.product.ProductStatus === 2 ? 'prodThumb disc' : 'prodThumb'}>
           <Link to={`/product/${this.props.product.ProdID}`}>
             <img src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=300&hei=300`} onError={(e) => this.errorHandler(e, 300)} className="thumbnail" alt="" />
           </Link>
