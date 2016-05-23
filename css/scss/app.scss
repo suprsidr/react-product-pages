@@ -161,6 +161,19 @@ p {
 }
 .prodThumb {
 	margin-bottom: .2rem;
+	position: relative;
+
+	&.disc {
+		&:after {
+			content: "";
+			background: transparent url("http://s7d5.scene7.com/is/image/horizonhobby/4c_discFlag?fmt=png-alpha") no-repeat scroll right top / cover ;
+			width: 29%;
+			height: 29%;
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
 
 	.thumbnail {
 		margin-bottom: 0;
