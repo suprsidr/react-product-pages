@@ -12,6 +12,7 @@ export default class ProdPriceBox extends Component {
               <span className="message">Free Shipping on orders over 99*. <a href="/content/support-render-shipping">Learn More</a></span>
             </div>
             <div className="content">
+	            {this.props.product.Desc && <p className="prodShortDesc">{this.props.product.Desc}</p>}
 	            {(this.props.product.ProductStatus === 2) && <p>This item is no longer available</p>}
 	            {(this.props.product.ProductStatus !== 2) && <p><s>Retail Price: ${this.props.product.ListPrice}</s><br />Selling Price: ${this.props.product.Price}</p>}
               <p>&nbsp;</p>
