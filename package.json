@@ -13,7 +13,8 @@
     "build": "webpack && gulp build --production",
     "task": "webpack",
     "test": "mocha -w ./test/**/*.spec.js --compilers js:babel-core/register",
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "gulp-watch": "gulp watch"
   },
   "repository": {
     "type": "git",

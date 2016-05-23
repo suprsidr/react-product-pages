@@ -37,6 +37,11 @@ gulp.task('default',
   )
 );
 
+// simple saa + watch
+gulp.task('watch',
+		gulp.series(sass, watch)
+);
+
 // Compile Sass into CSS
 // In production, the CSS is compressed
 function sass() {
