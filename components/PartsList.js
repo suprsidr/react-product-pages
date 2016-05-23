@@ -38,15 +38,20 @@ export default class PartsList extends Component {
 			// set what we do have
 			this.setState({products: data});
 			// check for off brand items that are missing and add when returned
-			let ids = data.map((product) => product.ProdID);
+			const ids = data.map((product) => product.ProdID);
 			const missing = this.partsList.filter((item) => ids.indexOf(item) === -1);
 			if(missing.length > 0) {
 				fetchData({
 					Displayable: 1,
-					Buyable: 1,
+					Buyable: {
+            $in: [0, 1]
+          },
 					ProdID: {
 						$in: missing
-					}
+					},
+          ProductStatus: {
+            $in: [1, 2]
+          }
 				}, (err, res) => {
 					if(err) {
 						console.log('Fetch data error: ', err, 'PartsList::query');
