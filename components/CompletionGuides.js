@@ -9,6 +9,7 @@ export default class CompletionGuides extends Component {
           <div className="small-12 columns">
             <h4>{list.ID}</h4>
             <PartsList key={i} partsList={list.Name} db={this.props.db} />
+            {(i < this.props.list.length - 1) && <hr/>}
           </div>))}
       </div>
     )
