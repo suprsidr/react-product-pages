@@ -28,7 +28,8 @@ export const fetchData = (query, cb) => {
 					RatingAverage: 1,
 					RatingCount: 1,
 					Attributes: 1,
-					Categories: 1
+					Categories: 1,
+          CompletionGuides: 1
 				});
 	request
 			.get(`${fetchUrl}/search/${q}/0/${s}/${f}`)
