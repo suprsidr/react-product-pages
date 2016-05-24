@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PartsList from './PartsList';
+import CompletionGuides from './CompletionGuides';
 
 export default class ProdTabs extends Component {
 	componentDidMount() {
@@ -89,7 +90,7 @@ export default class ProdTabs extends Component {
       return prev;
     }, []).sort((a, b) => a.ID > b.ID);
 
-	  if(this.props.product.LongDesc || specs.length > 0 || this.props.product.PartsList || manuals.length > 0) {
+	  if(this.props.product.LongDesc || specs.length > 0 || this.props.product.PartsList || this.props.product.CompletionGuides || manuals.length > 0) {
 		  return (
 				  <div className="row">
 					  <div className="small-12 columns">
@@ -102,6 +103,8 @@ export default class ProdTabs extends Component {
 							  {this.props.product.PartsList &&
 							  <li className="tabs-title"><a href="#parts" onClick={(e) => this.onTabClick(e)}>Parts &amp;
 								  Accessories</a></li>}
+                {this.props.product.CompletionGuides &&
+                <li className="tabs-title"><a href="#completion" onClick={(e) => this.onTabClick(e)}>Completion Guides</a></li>}
 							  {(manuals.length > 0) &&
 							  <li className="tabs-title"><a href="#manuals" onClick={(e) => this.onTabClick(e)}>Manuals &amp;
 								  Support</a></li>}
@@ -128,6 +131,10 @@ export default class ProdTabs extends Component {
 								  {this.props.product.PartsList &&
 								  <PartsList partsList={this.props.product.PartsList} db={this.props.db}/>}
 							  </div>
+                <div className="tabs-panel" id="completion">
+                  {this.props.product.CompletionGuides &&
+                  <CompletionGuides list={this.props.product.CompletionGuides} db={this.props.db}/>}
+                </div>
 							  <div className="tabs-panel" id="manuals">
 								  {(manuals.length > 0) && <ul>
 									  {manuals.map((manual, i) => <li key={i}><a href={`http://www.horizonhobby.com/pdf/${manual}`}>{manual}</a>
