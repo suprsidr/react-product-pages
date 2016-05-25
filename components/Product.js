@@ -28,8 +28,19 @@ export class ProdPageProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      childLoaded: false
+      childLoaded: false,
+      mediaSize: 500
     };
+  }
+  errorHandler(e, wid) {
+    e.target.error = null;
+    e.target.src = `http://s7d5.scene7.com/is/image/horizonhobby/no_image?wid=${wid}`
+  }
+  componentDidMount() {
+    this.setState({mediaSize: this.getMediaSize()});
+  }
+  getMediaSize() {
+    return window.innerWidth < 500 ? window.innerWidth : 500;
   }
   updateFromChild(obj) {
     this.setState(obj);
@@ -43,10 +54,15 @@ export class ProdPageProduct extends Component {
             <h3>{this.props.product.Name.replace(/&reg;/g, '®').replace(/&trade;/g, '™')}</h3><strong>{`(${this.props.product.ProdID})`}</strong>
           </div>
           <div className="small-12 medium-7 large-8 columns text-center">
-            <p><img src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=500`} onError={(e) => this.errorHandler(e, 500)} className="hero" alt={this.props.product.Name.replace(/&reg;/g, '')} /></p>
+            <p>
+              <img 
+                src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=${this.state.mediaSize}&hei=${this.state.mediaSize}`} 
+                onError={(e) => this.errorHandler(e, this.state.mediaSize)} 
+                className="hero" alt={this.props.product.Name.replace(/&reg;/g, '')} />
+            </p>
 	          <div className="row">
 		          <div className="small-12 columns">
-			          <ProdMedia product={this.props.product} />
+			          <ProdMedia mediaSize={this.state.mediaSize} product={this.props.product} />
 		          </div>
 	          </div>
           </div>
