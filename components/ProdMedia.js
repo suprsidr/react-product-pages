@@ -15,7 +15,7 @@ export default class ProdMedia extends Component {
   }
 	handleClick(e, idx) {
 		e.preventDefault();
-		document.querySelector('.hero').src = `http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a${idx}?wid=500&hei=500`;
+		document.querySelector('.hero').src = `http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a${idx}?wid=${this.props.mediaSize}&hei=${this.props.mediaSize}`;
 	}
 	getMedia(idx = 1) {
 		let img = document.createElement('img');
