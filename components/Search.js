@@ -10,7 +10,7 @@ export default class Search extends Component {
       products: [],
       showMessage: false,
 	    showMessageLink: false,
-	    status: 1,
+	    status: [1,4],
 	    searchTerm: ''
     };
   }
@@ -26,7 +26,7 @@ export default class Search extends Component {
   }
 	handleDiscClick(e) {
     e.preventDefault();
-		this.setState({status: 2, showMessage: false}, () => {
+		this.setState({status: [2], showMessage: false}, () => {
 			this.makeQuery(this.state.searchTerm)
 		});
   }
@@ -40,7 +40,9 @@ export default class Search extends Component {
 				  }
 			  }
 		  },
-      ProductStatus: this.state.status
+      ProductStatus: {
+        $in: this.state.status
+      }
 	  };
 	  if(searchTerm !== '') {
 		  q = this.getQuery(new RegExp(searchTerm, 'gi'));
@@ -58,6 +60,7 @@ export default class Search extends Component {
         Price: 1,
         Attributes: 1,
         Categories: 1,
+        ProductStatus: 1,
         _id: -1
       }
     });
@@ -104,14 +107,16 @@ export default class Search extends Component {
 					}
 				}
 			],
-			ProductStatus: this.state.status
+			ProductStatus: {
+        $in: this.state.status
+      }
 		};
 	}
   query(q, p) {
     this.props.db.products.find(q, p).fetch((data) => {
-	    if(data.length === 0 && this.state.status === 1) {
+	    if(data.length === 0 && this.state.status.indexOf(1) > -1) {
         this.setState({showMessage: true, showMessageLink: true});
-	    } else if(data.length === 0 && this.state.status === 2) {
+	    } else if(data.length === 0 && this.state.status.indexOf(2) > -1) {
 		    fetchData(this.getQuery([this.state.searchTerm, 'gi']), (err, res) => {
 			    if(err) {
 				    console.log('Fetch data error: ', err, 'Search::query');
@@ -121,7 +126,7 @@ export default class Search extends Component {
 					    this.setState({showMessage: true, showMessageLink: false});
 				    } else {
 					    upsert(this.props.db, res);
-					    this.setState({products: res, status: 1, showMessage: false});
+					    this.setState({products: res, status: [1,4], showMessage: false});
 				    }
 			    }
 		    });
