@@ -18,7 +18,7 @@ export class Product extends Component {
             <img src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=300&hei=300`} onError={(e) => this.errorHandler(e, 300)} className="thumbnail" alt="" />
           </Link>
         </p>
-        <p><strong>{`${this.props.product.Name.replace(/&reg;/g, '®')} (${this.props.product.ProdID})`}</strong><br />${this.props.product.Price}</p>
+        <p><strong>{`${this.props.product.Name.replace(/&reg;/g, '®')} (${this.props.product.ProdID})`}</strong><br />{(this.props.product.ProductStatus !== 2) && `$${this.props.product.Price}`}</p>
       </div>
     )
   }
@@ -55,9 +55,9 @@ export class ProdPageProduct extends Component {
           </div>
           <div className="small-12 medium-7 large-8 columns text-center">
             <p>
-              <img 
-                src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=${this.state.mediaSize}&hei=${this.state.mediaSize}`} 
-                onError={(e) => this.errorHandler(e, this.state.mediaSize)} 
+              <img
+                src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=${this.state.mediaSize}&hei=${this.state.mediaSize}`}
+                onError={(e) => this.errorHandler(e, this.state.mediaSize)}
                 className="hero" alt={this.props.product.Name.replace(/&reg;/g, '')} />
             </p>
 	          <div className="row">
