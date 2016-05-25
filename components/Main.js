@@ -28,7 +28,9 @@ export default class Main extends Component {
 		  fetchData({
 			  Displayable: 1,
 			  Buyable: 1,
-			  ProductStatus: 1,
+			  ProductStatus: {
+          $in: [1,4]
+        },
 			  BrandID: 'BLH'
 		  }, (err, data) => {
 			  if(err) {

@@ -44,13 +44,13 @@ export default class PartsList extends Component {
 				fetchData({
 					Displayable: 1,
 					Buyable: {
-            $in: [0, 1]
+            $in: [0,1]
           },
 					ProdID: {
 						$in: missing
 					},
           ProductStatus: {
-            $in: [1, 2]
+            $in: [1,2,4]
           }
 				}, (err, res) => {
 					if(err) {

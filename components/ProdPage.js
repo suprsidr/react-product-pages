@@ -40,7 +40,7 @@ export default class ProdPage extends Component {
 				    $in: [0,1]
 			    },
 			    ProductStatus: {
-				    $in: [1,2]
+				    $in: [1,2,4]
 			    },
 			    ProdID: this.props.params.id
 		    }, (err, res) => {
