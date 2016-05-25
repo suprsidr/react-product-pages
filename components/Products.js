@@ -17,6 +17,7 @@ export default class Products extends Component {
 		  Price: 1,
 		  Attributes: 1,
 		  Categories: 1,
+      ProductStatus: 1,
 		  _id: -1
 	  };
 	  this.selectedFilters = {};
