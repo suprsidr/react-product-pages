@@ -87,6 +87,12 @@ p {
 .text-center {
   text-align: center;
 }
+.title-bar-title {
+  a {
+    color: #fff;
+  }
+}
+
 .top-bar {
   background: #222 none repeat scroll 0 0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
