@@ -20,6 +20,11 @@ app.get('/static/:id', function(req, res) {
   });
 });
 
+app.get('/js/manifest.json', function(req,res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.sendFile(path.resolve(__dirname,'../js/manifest.json'));
+});
+
 app.get('/storelocator', function(req,res) {
   res.sendFile(path.resolve(__dirname,'../StoreLocator.html'));
 });
