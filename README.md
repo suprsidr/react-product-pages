@@ -5,9 +5,10 @@ Utilizing Minimongo in the browser, we fetch an initial set of data from our ser
 The only additional queries to the service consist of mising data from parts lists or search results.
 
 # Quick start
-The only development dependencies of this project is
-[Node.js > 4.0](https://nodejs.org) (try [NVM](https://github.com/creationix/nvm) to manage node versions),
-[Webpack](https://github.com/webpack/webpack) and [gulp](https://github.com/gulpjs/gulp)
+The only development dependencies of this project are:
+* [Node.js > 4.0](https://nodejs.org) (try [NVM](https://github.com/creationix/nvm) to manage node versions),
+* [Webpack](https://github.com/webpack/webpack)
+* [gulp](https://github.com/gulpjs/gulp)
 
 ```
 npm install -g webpack gulp
