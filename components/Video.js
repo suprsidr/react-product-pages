@@ -53,7 +53,6 @@ export default class Video extends Component {
     this.playlistSelector = this.refs.playlistSelector;
     this.message = this.refs.message;
     this.init();
-	  console.log(this.autoPlay);
   }
   handleSearchClick(e) {
     e.preventDefault();
@@ -153,13 +152,11 @@ export default class Video extends Component {
 		  .query(data)
 		  .end((err, res) => {
 			  err ? console.log(err) : '';
-        console.log('getID: ', res);
 			  if(res.body.items && res.body.items.length > 0 && res.body.items[0].id){
 				  this.setState({
 					  channelId: res.body.items[0].id,
 					  uploadsPlaylistId: res.body.items[0].contentDetails.relatedPlaylists.uploads
 				  }, () => {
-            console.log('state updated: ', this.state);
             this.state.uploadsPlaylistId && this.getPlaylistItems(this.state.uploadsPlaylistId);
 					  this.playlistSelector.style.display = 'block';
 					  this.getPlaylists();
