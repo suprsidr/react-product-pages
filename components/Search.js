@@ -17,7 +17,7 @@ export default class Search extends Component {
   componentDidMount() {
 	  this.setState({searchTerm: this.props.params.searchTerm || ''}, () => {
 		  this.makeQuery(this.state.searchTerm);
-  });
+    });
   }
   componentWillReceiveProps(nextProps) {
 	  this.setState({searchTerm: nextProps.params.searchTerm || '', products: [], showMessage: false}, () => {
