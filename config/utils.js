@@ -1,6 +1,6 @@
 import request from 'superagent';
 import jsonp from 'superagent-jsonp';
-import {fetchUrl} from './globals';
+import {FETCH_URL} from './globals';
 
 /**
  * fetch data from the server
@@ -32,7 +32,7 @@ export const fetchData = (query, cb) => {
           CompletionGuides: 1
 				});
 	request
-			.get(`${fetchUrl}/search/${q}/0/${s}/${f}`)
+			.get(`${FETCH_URL}/search/${q}/0/${s}/${f}`)
 			.use(jsonp)
 			.end((err, res) => {
 				if (err) {
