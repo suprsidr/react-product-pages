@@ -38,7 +38,7 @@ export default class ProdTabs extends Component {
 				let id = embed.src.split('/v/')[1].split('?')[0];
 				let parent = embed.parentNode;
 				let iframe = document.createElement('iframe');
-				iframe.src = `http://www.youtube.com/embed/${id}?rel=0&amp;wmode=opaque`;
+				iframe.src = `https://www.youtube.com/embed/${id}?rel=0&amp;wmode=opaque`;
 				iframe.setAttribute('frameborder', 0);
 				iframe.setAttribute('allowfullscreen', 'allowfullscreen');
 				let div = document.createElement('div');
@@ -51,6 +51,7 @@ export default class ProdTabs extends Component {
 		Array.from(el.querySelectorAll('iframe[src*="youtube"]')).forEach((iframe) => {
 			let div = document.createElement('div');
 			let parent = iframe.parentNode;
+      iframe.src = iframe.src.replace('http:', 'https:');
 			// TODO make sure iframe is not already wrapped by div.flex-video.widescreen
 			let dup = iframe.cloneNode(false);
 			/* can we chain these? http://stackoverflow.com/questions/28653761/chaining-html5-classlist-api-without-jquery */
@@ -61,7 +62,7 @@ export default class ProdTabs extends Component {
 		});
 		Array.from(el.querySelectorAll('.yt-video-container')).forEach((container) => {
 			let iframe = document.createElement('iframe');
-			iframe.src = `http://www.youtube.com/embed/${container.dataset.ytid}?rel=0&amp;wmode=opaque`;
+			iframe.src = `https://www.youtube.com/embed/${container.dataset.ytid}?rel=0&amp;wmode=opaque`;
 			iframe.setAttribute('frameborder', 0);
 			iframe.setAttribute('allowfullscreen', 'allowfullscreen');
 			container.classList.add('flex-video');

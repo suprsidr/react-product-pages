@@ -4,18 +4,19 @@ import ProdPriceBox from './ProdPriceBox';
 import ProdTabs from './ProdTabs';
 import ProdMedia from './ProdMedia';
 import StaticContent from './StaticContent';
+import {SCENE7_URL} from '../config/globals';
 
 export class Product extends Component {
 	errorHandler(e, wid) {
 		e.target.error = null;
-		e.target.src = `http://s7d5.scene7.com/is/image/horizonhobby/no_image?wid=${wid}`
+		e.target.src = `${SCENE7_URL}/no_image?wid=${wid}`
 	}
   render() {
     return (
       <div className="column text-center">
         <p className={`prodThumb${this.props.product.ProductStatus === 2 ? ' disc' : ''}${this.props.product.ProductStatus === 4 ? ' new' : ''}`}>
           <Link to={`/product/${this.props.product.ProdID}`}>
-            <img src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=300&hei=300`} onError={(e) => this.errorHandler(e, 300)} className="thumbnail" alt="" />
+            <img src={`${SCENE7_URL}/${this.props.product.ProdID}_a0?wid=300&hei=300`} onError={(e) => this.errorHandler(e, 300)} className="thumbnail" alt="" />
           </Link>
         </p>
         <p><strong>{`${this.props.product.Name.replace(/&reg;/g, '®')} (${this.props.product.ProdID})`}</strong><br />{(this.props.product.ProductStatus !== 2) && `$${this.props.product.Price}`}</p>
@@ -34,7 +35,7 @@ export class ProdPageProduct extends Component {
   }
   errorHandler(e, wid) {
     e.target.error = null;
-    e.target.src = `http://s7d5.scene7.com/is/image/horizonhobby/no_image?wid=${wid}`
+    e.target.src = `${SCENE7_URL}/no_image?wid=${wid}`
   }
   componentDidMount() {
     this.setState({mediaSize: this.getMediaSize()});
@@ -56,7 +57,7 @@ export class ProdPageProduct extends Component {
           <div className="small-12 medium-7 large-8 columns text-center">
             <p>
               <img
-                src={`http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a0?wid=${this.state.mediaSize}&hei=${this.state.mediaSize}`}
+                src={`${SCENE7_URL}/${this.props.product.ProdID}_a0?wid=${this.state.mediaSize}&hei=${this.state.mediaSize}`}
                 onError={(e) => this.errorHandler(e, this.state.mediaSize)}
                 className="hero" alt={this.props.product.Name.replace(/&reg;/g, '')} />
             </p>

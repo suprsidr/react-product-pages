@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {SCENE7_URL} from '../config/globals';
 
 export default class ProdMedia extends Component {
 	constructor (props) {
@@ -15,11 +16,11 @@ export default class ProdMedia extends Component {
   }
 	handleClick(e, idx) {
 		e.preventDefault();
-		document.querySelector('.hero').src = `http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a${idx}?wid=${this.props.mediaSize}&hei=${this.props.mediaSize}`;
+		document.querySelector('.hero').src = `${SCENE7_URL}/${this.props.product.ProdID}_a${idx}?wid=${this.props.mediaSize}&hei=${this.props.mediaSize}`;
 	}
 	getMedia(idx = 1) {
 		let img = document.createElement('img');
-		let src = `http://s7d5.scene7.com/is/image/horizonhobby/${this.props.product.ProdID}_a${idx}?wid=120&hei=120`;
+		let src = `${SCENE7_URL}/${this.props.product.ProdID}_a${idx}?wid=120&hei=120`;
 		img.addEventListener('load', (e) => {
 			let media = this.state.mediaArray.slice();
 			media.push({src: src, idx: idx});
